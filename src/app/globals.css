@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root { --ruby: #C15959; --ruby-glow: #D47979; --cream: #FDF0D5; --beige: #C79B69; --navy: #003049; --sky: #669BBC; }
+  html { background: #FDF0D5; color: #003049; transition: background-color 0.3s ease, color 0.3s ease; }
+  body { background: #FDF0D5; color: #003049; transition: background-color 0.3s ease, color 0.3s ease; }
+  html.dark { background: #001A2B; color: #FDF0D5; }
+  html.dark body { background: #001A2B; color: #FDF0D5; }
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: rgba(0, 48, 73, 0.15); }
+.dark ::-webkit-scrollbar-track { background: rgba(0, 48, 73, 0.3); }
+::-webkit-scrollbar-thumb { background: rgba(199, 155, 105, 0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(199, 155, 105, 0.5); }
+::selection { background: rgba(193, 89, 89, 0.3); color: inherit; }
