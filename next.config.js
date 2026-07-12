@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const path = require('path');
+
 const nextConfig = {
   async headers() {
     return [{
@@ -14,6 +16,10 @@ const nextConfig = {
   async rewrites() {
     const backendUrl = process.env.BACKEND_URL || 'http://localhost:3001';
     return [{ source: '/api/:path*', destination: `${backendUrl}/api/:path*` }];
+  },
+  webpack: (config) => {
+    config.resolve.alias['@'] = path.join(__dirname, 'src');
+    return config;
   },
   poweredByHeader: false,
 };
