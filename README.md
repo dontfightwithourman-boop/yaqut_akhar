@@ -100,7 +100,7 @@ git push -u origin main
    - **Name**: `yaghout-api`
    - **Runtime**: Node
    - **Build Command**: `cd server && npm install`
-   - **Start Command**: `cd server && npx ts-node index.ts`
+   - **Start Command**: `cd server && npx tsx index.ts`
    - **Port**: 3001
 5. Add Environment Variables:
    ```
