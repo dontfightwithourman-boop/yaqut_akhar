@@ -6,7 +6,7 @@ import ClientProviders from './providers';
 const vazirmatn = Vazirmatn({ subsets: ['arabic'], weight: ['400', '600', '700', '900'], variable: '--font-vazirmatn', display: 'swap' });
 
 export const metadata: Metadata = {
-  title: { default: 'یاقوت سمینار — مسابقه پروژه‌های دانشجویی', template: '%s | یاقوت سمینار' },
+  title: { default: 'یاقوت سمینار v2.0 — مسابقه پروژه‌های دانشجویی', template: '%s | یاقوت سمینار' },
   description: 'مسابقه پروژه‌های دانشجویی سمینار — جایی که تلاش شما به یاقوت تبدیل می‌شود',
   keywords: ['سمینار', 'یاقوت', 'مسابقه', 'پروژه دانشجویی'],
   openGraph: { type: 'website', locale: 'fa_IR', siteName: 'یاقوت سمینار', title: 'یاقوت سمینار', description: 'مسابقه پروژه‌های دانشجویی سمینار' },
