@@ -6,7 +6,6 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import Card from '@/components/ui/Card';
 import Modal from '@/components/ui/Modal';
-import JalaliDateInput from '@/components/ui/JalaliDateInput';
 import { toPersianNumber, formatDate } from '@/lib/helpers';
 import type { WorkshopItem, WorkshopLoan } from '@/lib/types';
 
@@ -25,7 +24,7 @@ export default function WorkshopPage() {
   const [lItemId, setLItemId] = useState(''); const [lItemName, setLItemName] = useState('');
   const [lQty, setLQty] = useState('1'); const [lGroup, setLGroup] = useState('');
   const [lBorrower, setLBorrower] = useState(''); const [lPhone, setLPhone] = useState('');
-  const [lBorrowDate, setLBorrowDate] = useState(''); const [lReturnDate, setLReturnDate] = useState('');
+  const [lDays, setLDays] = useState('');
   const [lErr, setLErr] = useState(''); const [lLoad, setLLoad] = useState(false);
 
   const fetchData = async () => { try { const [i, l] = await Promise.all([workshopAPI.getItems(), workshopAPI.getLoans()]); setItems(i.items); setLoans(l.loans); } catch { /* */ } finally { setLoading(false); } };
@@ -41,10 +40,15 @@ export default function WorkshopPage() {
   };
   const handleDeleteItem = async (id: string) => { if (!confirm('آیا از حذف مطمئن هستید؟')) return; try { await workshopAPI.deleteItem(id); fetchData(); } catch { /* */ } };
 
-  const openCreateLoan = () => { setLItemId(''); setLItemName(''); setLQty('1'); setLGroup(''); setLBorrower(''); setLPhone(''); setLBorrowDate(''); setLReturnDate(''); setLErr(''); setShowLoanModal(true); };
+  const openCreateLoan = () => { setLItemId(''); setLItemName(''); setLQty('1'); setLGroup(''); setLBorrower(''); setLPhone(''); setLDays(''); setLErr(''); setShowLoanModal(true); };
   const handleLoanSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); setLErr(''); setLLoad(true);
-    try { await workshopAPI.createLoan({ item_id: lItemId, item_name: lItemName, quantity: parseInt(lQty) || 1, group_number: lGroup, borrower_name: lBorrower, phone_number: lPhone, borrow_date: lBorrowDate, return_date: lReturnDate }); setShowLoanModal(false); fetchData();
+    const days = parseInt(lDays) || 0;
+    if (days <= 0) { setLErr('تعداد روزها باید بیشتر از صفر باشد'); setLLoad(false); return; }
+    const today = new Date();
+    const borrowDate = today.toISOString().split('T')[0];
+    const returnDate = new Date(today.getTime() + days * 86400000).toISOString().split('T')[0];
+    try { await workshopAPI.createLoan({ item_id: lItemId, item_name: lItemName, quantity: parseInt(lQty) || 1, group_number: lGroup, borrower_name: lBorrower, phone_number: lPhone, borrow_date: borrowDate, return_date: returnDate }); setShowLoanModal(false); fetchData();
     } catch (err: unknown) { setLErr(err instanceof Error ? err.message : 'خطا'); } finally { setLLoad(false); }
   };
   const handleReturnLoan = async (id: string) => { try { await workshopAPI.updateLoan(id, { status: 'returned' }); fetchData(); } catch { /* */ } };
@@ -153,8 +157,7 @@ export default function WorkshopPage() {
         <Input label="نام قرض‌گیرنده" value={lBorrower} onChange={(e) => setLBorrower(e.target.value)} />
         <Input label="شماره تلفن" value={lPhone} onChange={(e) => setLPhone(e.target.value)} placeholder="0912..." dir="ltr" />
         <Input label="شماره گروه" value={lGroup} onChange={(e) => setLGroup(e.target.value)} />
-        <JalaliDateInput label="تاریخ قرض" value={lBorrowDate} onChange={setLBorrowDate} />
-        <JalaliDateInput label="مهلت بازگشت" value={lReturnDate} onChange={setLReturnDate} />
+        <Input label="تعداد روز قرض" type="number" min="1" value={lDays} onChange={(e) => setLDays(e.target.value)} placeholder="مثلاً ۷" />
         {lErr && <div className="p-3 rounded-xl bg-ruby/10 border border-ruby/20 text-ruby-glow text-sm text-center">{lErr}</div>}
         <div className="flex gap-3"><Button type="submit" loading={lLoad} className="flex-1">ثبت قرض</Button><Button type="button" variant="ghost" onClick={() => setShowLoanModal(false)}>انصراف</Button></div>
       </form>
