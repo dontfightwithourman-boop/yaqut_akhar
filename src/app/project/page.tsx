@@ -43,12 +43,13 @@ export default function StudentProjectPage() {
       setSMembers(pd.project.members?.map((m) => ({ name: m.name, period: m.period || '' })) || []);
       const e = ld.leaderboard.find((x: LeaderboardEntry) => x.id === user.projectId);
       if (e) setRank(e.rank);
+      // Fetch workshop loans for all project members
       if (pd.project.members) {
         const allLoans: WorkshopLoan[] = [];
         for (const m of pd.project.members) {
           try {
-            const loansRes = await fetch(`/api/workshop/loans-by-member/${encodeURIComponent(m.name)}`);
-            if (loansRes.ok) { const data = await loansRes.json(); allLoans.push(...data.loans); }
+            const res = await workshopAPI.getLoansByMember(m.name);
+            allLoans.push(...res.loans);
           } catch { /* */ }
         }
         setWorkshopLoans(allLoans);
@@ -185,7 +186,7 @@ export default function StudentProjectPage() {
             </Card>
           )}
 
-          {/* Team members */}
+          {/* Team members - پروژه من */}
           <Card className="p-4 sm:p-6">
             <h2 className="text-base sm:text-lg font-bold text-navy mb-3 sm:mb-4 flex items-center gap-2 dark:text-cream"><Users className="w-4 h-4 sm:w-5 sm:h-5 text-sky" />اعضای تیم</h2>
             <div className="space-y-2 sm:space-y-3">
@@ -198,15 +199,17 @@ export default function StudentProjectPage() {
             </div>
           </Card>
 
-          {/* Workshop Loans */}
-          {workshopLoans.length > 0 && (
-            <Card className="p-4 sm:p-6">
-              <h2 className="text-base sm:text-lg font-bold text-navy mb-3 sm:mb-4 flex items-center gap-2 dark:text-cream"><Wrench className="w-4 h-4 sm:w-5 sm:h-5 text-beige" />وسایل قرضی تیم</h2>
+          {/* Workshop Loans - وسایل قرضی */}
+          <Card className="p-4 sm:p-6">
+            <h2 className="text-base sm:text-lg font-bold text-navy mb-3 sm:mb-4 flex items-center gap-2 dark:text-cream"><Wrench className="w-4 h-4 sm:w-5 sm:h-5 text-beige" />وسایل قرضی تیم</h2>
+            {workshopLoans.length === 0 ? (
+              <p className="text-sm text-navy/40 dark:text-sky/60 text-center py-4">هنوز وسیله‌ای قرض گرفته نشده</p>
+            ) : (
               <div className="space-y-2">
                 {workshopLoans.map((loan) => {
                   const isOverdue = loan.return_date < today;
                   return (
-                    <div key={loan.id} className={`flex items-center justify-between p-3 rounded-xl ${isOverdue ? 'bg-red-500/5 border border-red-500/20' : 'bg-navy/3 dark:bg-navy-light/30'}`}>
+                    <div key={loan.id} className={`flex items-center justify-between p-3 rounded-xl ${isOverdue ? 'bg-red-500/5 border border-red-500/20 dark:bg-red-500/10' : 'bg-navy/3 dark:bg-navy-light/30'}`}>
                       <div className="flex items-center gap-2">
                         {isOverdue && <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" />}
                         <div>
@@ -222,8 +225,8 @@ export default function StudentProjectPage() {
                   );
                 })}
               </div>
-            </Card>
-          )}
+            )}
+          </Card>
 
           {/* Yaqut History */}
           {project.yaqut_history && project.yaqut_history.length > 0 && (
