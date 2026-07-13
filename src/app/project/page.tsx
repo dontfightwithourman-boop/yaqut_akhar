@@ -44,16 +44,16 @@ export default function StudentProjectPage() {
       const e = ld.leaderboard.find((x: LeaderboardEntry) => x.id === user.projectId);
       if (e) setRank(e.rank);
       // Fetch workshop loans for all project members
+      const allLoans: WorkshopLoan[] = [];
       if (pd.project.members) {
-        const allLoans: WorkshopLoan[] = [];
         for (const m of pd.project.members) {
           try {
             const res = await workshopAPI.getLoansByMember(m.name);
-            allLoans.push(...res.loans);
-          } catch { /* */ }
+            if (res && res.loans) allLoans.push(...res.loans);
+          } catch (e) { /* silently continue */ }
         }
-        setWorkshopLoans(allLoans);
       }
+      setWorkshopLoans(allLoans);
     } catch (err: unknown) { setError(err instanceof Error ? err.message : 'خطا'); } finally { setLoading(false); }
   };
 
@@ -118,77 +118,43 @@ export default function StudentProjectPage() {
           {/* Yaqut Score */}
           <Card className="p-8 sm:p-10 text-center relative overflow-hidden">
             <SparkleEffect count={12} />
-            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', bounce: 0.4 }}>
-              <YaqutIcon size={72} animate />
-            </motion.div>
+            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', bounce: 0.4 }}><YaqutIcon size={72} animate /></motion.div>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
               <div className="text-6xl sm:text-7xl font-black text-navy mt-4 dark:text-cream">{toPersianNumber(project.yaqut_count)}</div>
               <div className="text-xl text-navy/50 mt-2 dark:text-beige-light">یاقوت</div>
             </motion.div>
           </Card>
 
-          {/* Save message */}
           {saveMsg && <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-sm text-center">{saveMsg}</motion.div>}
 
-          {/* Action buttons */}
           <div className="flex flex-col sm:flex-row gap-3">
-            <button onClick={() => setShowSettings(!showSettings)} className="flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-white/60 border border-navy/8 text-navy/60 hover:text-navy hover:bg-white/80 transition-all dark:bg-navy/60 dark:border-beige/10 dark:text-beige-light dark:hover:text-cream dark:hover:bg-navy-light/30">
-              <Settings className="w-4 h-4" />تنظیمات پروژه
-            </button>
-            <a href="/leaderboard" className="flex-1 flex items-center justify-center gap-2 p-4 rounded-2xl bg-white/60 border border-navy/8 text-navy/60 hover:text-navy hover:bg-white/80 transition-all dark:bg-navy/60 dark:border-beige/10 dark:text-beige-light dark:hover:text-cream dark:hover:bg-navy-light/30">
-              <Trophy className="w-4 h-4" />رتبه‌بندی
-            </a>
+            <button onClick={() => setShowSettings(!showSettings)} className="flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-white/60 border border-navy/8 text-navy/60 hover:text-navy hover:bg-white/80 transition-all dark:bg-navy/60 dark:border-beige/10 dark:text-beige-light dark:hover:text-cream dark:hover:bg-navy-light/30"><Settings className="w-4 h-4" />تنظیمات پروژه</button>
+            <a href="/leaderboard" className="flex-1 flex items-center justify-center gap-2 p-4 rounded-2xl bg-white/60 border border-navy/8 text-navy/60 hover:text-navy hover:bg-white/80 transition-all dark:bg-navy/60 dark:border-beige/10 dark:text-beige-light dark:hover:text-cream dark:hover:bg-navy-light/30"><Trophy className="w-4 h-4" />رتبه‌بندی</a>
           </div>
 
-          {/* Settings panel */}
           {showSettings && (
             <Card className="p-4 sm:p-6">
               <h2 className="text-lg font-bold text-navy mb-4 flex items-center gap-2 dark:text-cream"><Settings className="w-5 h-5 text-sky" />تنظیمات پروژه</h2>
               <div className="space-y-4">
                 <Input label="نام پروژه" value={sName} onChange={(e) => setSName(e.target.value)} />
-                <div className="space-y-1.5">
-                  <label className="block text-sm font-medium text-navy dark:text-beige-light">توضیحات</label>
-                  <textarea value={sDesc} onChange={(e) => setSDesc(e.target.value)} rows={3} className="w-full px-4 py-3 rounded-xl bg-white/80 border border-navy/15 text-navy placeholder-navy/30 focus:outline-none focus:ring-2 focus:ring-ruby/50 dark:bg-navy-light/40 dark:border-beige/15 dark:text-cream dark:placeholder-sky/40 resize-none" dir="auto" />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="block text-sm font-medium text-navy dark:text-beige-light">لوگوی پروژه</label>
+                <div className="space-y-1.5"><label className="block text-sm font-medium text-navy dark:text-beige-light">توضیحات</label><textarea value={sDesc} onChange={(e) => setSDesc(e.target.value)} rows={3} className="w-full px-4 py-3 rounded-xl bg-white/80 border border-navy/15 text-navy placeholder-navy/30 focus:outline-none focus:ring-2 focus:ring-ruby/50 dark:bg-navy-light/40 dark:border-beige/15 dark:text-cream dark:placeholder-sky/40 resize-none" dir="auto" /></div>
+                <div className="space-y-1.5"><label className="block text-sm font-medium text-navy dark:text-beige-light">لوگوی پروژه</label>
                   <input type="file" ref={fileInputRef} accept="image/*" onChange={handleImageUpload} className="hidden" />
-                  <div className="flex items-center gap-3">
-                    <button type="button" onClick={() => fileInputRef.current?.click()} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/60 border border-navy/10 text-navy/60 hover:text-navy hover:bg-white/80 transition-all dark:bg-navy-light/30 dark:border-beige/15 dark:text-beige-light dark:hover:text-cream">
-                      <Upload className="w-4 h-4" />انتخاب تصویر
-                    </button>
-                    {sLogo && <button type="button" onClick={() => setSLogo('')} className="flex items-center gap-1 px-3 py-2 rounded-xl text-ruby hover:text-ruby-glow text-sm"><X className="w-3 h-3" />حذف</button>}
-                  </div>
+                  <div className="flex items-center gap-3"><button type="button" onClick={() => fileInputRef.current?.click()} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/60 border border-navy/10 text-navy/60 hover:text-navy hover:bg-white/80 transition-all dark:bg-navy-light/30 dark:border-beige/15 dark:text-beige-light dark:hover:text-cream"><Upload className="w-4 h-4" />انتخاب تصویر</button>
+                    {sLogo && <button type="button" onClick={() => setSLogo('')} className="flex items-center gap-1 px-3 py-2 rounded-xl text-ruby hover:text-ruby-glow text-sm"><X className="w-3 h-3" />حذف</button>}</div>
                   {sLogo && <div className="mt-2 text-center"><img src={sLogo} alt="Logo" className="w-20 h-20 rounded-xl object-cover mx-auto border border-navy/10 dark:border-beige/20" /></div>}
                 </div>
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <label className="text-sm font-medium text-navy/60 dark:text-beige-light">اعضا</label>
-                    <button type="button" onClick={addM} className="text-xs text-ruby hover:text-ruby-glow transition-colors">+ افزودن عضو</button>
-                  </div>
-                  <div className="space-y-2">
-                    {sMembers.map((m, i) => (
-                      <div key={i} className="flex gap-2 items-center">
-                        <span className="text-xs font-bold text-navy/40 dark:text-sky w-6 text-center">{toPersianNumber(i + 1)}</span>
-                        <input placeholder="نام" value={m.name} onChange={(e) => updM(i, 'name', e.target.value)} className="flex-1 px-3 py-2 rounded-lg bg-white/60 border border-navy/10 text-navy text-sm focus:outline-none focus:ring-1 focus:ring-ruby/50 dark:bg-navy-light/30 dark:border-beige/15 dark:text-cream" />
-                        <input placeholder="دوره" value={m.period} onChange={(e) => updM(i, 'period', e.target.value)} className="w-24 sm:w-28 px-3 py-2 rounded-lg bg-white/60 border border-navy/10 text-navy text-sm dark:bg-navy-light/30 dark:border-beige/15 dark:text-cream" />
-                        <button type="button" onClick={() => rmM(i)} className="px-2 text-ruby-glow hover:text-ruby">✕</button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                <div><div className="flex items-center justify-between mb-2"><label className="text-sm font-medium text-navy/60 dark:text-beige-light">اعضا</label><button type="button" onClick={addM} className="text-xs text-ruby hover:text-ruby-glow transition-colors">+ افزودن عضو</button></div>
+                  <div className="space-y-2">{sMembers.map((m, i) => (<div key={i} className="flex gap-2 items-center"><span className="text-xs font-bold text-navy/40 dark:text-sky w-6 text-center">{toPersianNumber(i + 1)}</span><input placeholder="نام" value={m.name} onChange={(e) => updM(i, 'name', e.target.value)} className="flex-1 px-3 py-2 rounded-lg bg-white/60 border border-navy/10 text-navy text-sm focus:outline-none focus:ring-1 focus:ring-ruby/50 dark:bg-navy-light/30 dark:border-beige/15 dark:text-cream" /><input placeholder="دوره" value={m.period} onChange={(e) => updM(i, 'period', e.target.value)} className="w-24 sm:w-28 px-3 py-2 rounded-lg bg-white/60 border border-navy/10 text-navy text-sm dark:bg-navy-light/30 dark:border-beige/15 dark:text-cream" /><button type="button" onClick={() => rmM(i)} className="px-2 text-ruby-glow hover:text-ruby">✕</button></div>))}</div></div>
                 {sErr && <div className="p-3 rounded-xl bg-ruby/10 border border-ruby/20 text-ruby-glow text-sm text-center">{sErr}</div>}
-                <div className="flex gap-3">
-                  <Button onClick={handleSave} loading={sLoad} className="flex-1">ذخیره تغییرات</Button>
-                  <Button variant="ghost" onClick={() => setShowSettings(false)}>انصراف</Button>
-                </div>
+                <div className="flex gap-3"><Button onClick={handleSave} loading={sLoad} className="flex-1">ذخیره تغییرات</Button><Button variant="ghost" onClick={() => setShowSettings(false)}>انصراف</Button></div>
               </div>
             </Card>
           )}
 
-          {/* Team members - پروژه من */}
+          {/* پروژه من - Team members */}
           <Card className="p-4 sm:p-6">
-            <h2 className="text-base sm:text-lg font-bold text-navy mb-3 sm:mb-4 flex items-center gap-2 dark:text-cream"><Users className="w-4 h-4 sm:w-5 sm:h-5 text-sky" />اعضای تیم</h2>
+            <h2 className="text-base sm:text-lg font-bold text-navy mb-3 sm:mb-4 flex items-center gap-2 dark:text-cream"><Users className="w-4 h-4 sm:w-5 sm:h-5 text-sky" />پروژه من</h2>
             <div className="space-y-2 sm:space-y-3">
               {project.members?.map((m, i) => (
                 <motion.div key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }} className="flex items-center gap-3 p-2 sm:p-3 rounded-xl bg-navy/3 dark:bg-navy-light/30">
@@ -199,9 +165,9 @@ export default function StudentProjectPage() {
             </div>
           </Card>
 
-          {/* Workshop Loans - وسایل قرضی */}
+          {/* وسایل قرضی تیم - Workshop Loans */}
           <Card className="p-4 sm:p-6">
-            <h2 className="text-base sm:text-lg font-bold text-navy mb-3 sm:mb-4 flex items-center gap-2 dark:text-cream"><Wrench className="w-4 h-4 sm:w-5 sm:h-5 text-beige" />وسایل قرضی تیم</h2>
+            <h2 className="text-base sm:text-lg font-bold text-navy mb-3 sm:mb-4 flex items-center gap-2 dark:text-cream"><Wrench className="w-4 h-4 sm:w-5 sm:h-5 text-beige" />قرض گرفته شده‌ها</h2>
             {workshopLoans.length === 0 ? (
               <p className="text-sm text-navy/40 dark:text-sky/60 text-center py-4">هنوز وسیله‌ای قرض گرفته نشده</p>
             ) : (
