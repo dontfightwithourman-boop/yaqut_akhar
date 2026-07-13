@@ -23,12 +23,20 @@ export async function initDB(): Promise<Database> {
   db.run('CREATE TABLE IF NOT EXISTS projects (id TEXT PRIMARY KEY, name TEXT NOT NULL, username TEXT UNIQUE NOT NULL, password TEXT NOT NULL, description TEXT DEFAULT \'\', logo TEXT DEFAULT \'\', yaqut_count INTEGER DEFAULT 0, created_at TEXT DEFAULT (datetime(\'now\')), updated_at TEXT DEFAULT (datetime(\'now\')))');
   db.run('CREATE TABLE IF NOT EXISTS members (id INTEGER PRIMARY KEY AUTOINCREMENT, project_id TEXT NOT NULL, name TEXT NOT NULL, period TEXT, FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE)');
   db.run('CREATE TABLE IF NOT EXISTS yaqut_events (id TEXT PRIMARY KEY, project_id TEXT NOT NULL, amount INTEGER NOT NULL, awarded_at TEXT DEFAULT (datetime(\'now\')), note TEXT, FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE)');
-
-  // Workshop tables
   db.run('CREATE TABLE IF NOT EXISTS workshop_items (id TEXT PRIMARY KEY, name TEXT NOT NULL, location TEXT DEFAULT \'\', quantity INTEGER DEFAULT 1, description TEXT DEFAULT \'\', created_at TEXT DEFAULT (datetime(\'now\')), updated_at TEXT DEFAULT (datetime(\'now\')))');
-  db.run('CREATE TABLE IF NOT EXISTS workshop_loans (id TEXT PRIMARY KEY, item_id TEXT NOT NULL, item_name TEXT NOT NULL, quantity INTEGER DEFAULT 1, group_name TEXT DEFAULT \'\', borrower_name TEXT DEFAULT \'\', borrow_date TEXT NOT NULL, return_date TEXT NOT NULL, status TEXT DEFAULT \'borrowed\', created_at TEXT DEFAULT (datetime(\'now\')), FOREIGN KEY (item_id) REFERENCES workshop_items(id) ON DELETE CASCADE)');
+  db.run('CREATE TABLE IF NOT EXISTS workshop_loans (id TEXT PRIMARY KEY, item_id TEXT NOT NULL, item_name TEXT NOT NULL, quantity INTEGER DEFAULT 1, group_number TEXT DEFAULT \'\', borrower_name TEXT DEFAULT \'\', borrow_date TEXT NOT NULL, return_date TEXT NOT NULL, status TEXT DEFAULT \'borrowed\', created_at TEXT DEFAULT (datetime(\'now\')), FOREIGN KEY (item_id) REFERENCES workshop_items(id) ON DELETE CASCADE)');
 
-  // Migration
+  // Migration: rename group_name to group_number if needed
+  try {
+    const cols = queryAll(db, "PRAGMA table_info(workshop_loans)");
+    const hasGroupName = cols.some(c => c.name === 'group_name');
+    const hasGroupNumber = cols.some(c => c.name === 'group_number');
+    if (hasGroupName && !hasGroupNumber) {
+      db.run("ALTER TABLE workshop_loans RENAME COLUMN group_name TO group_number");
+    }
+  } catch { /* migration already done or table doesn't exist */ }
+
+  // Migration for other columns
   try { db.run('ALTER TABLE projects ADD COLUMN description TEXT DEFAULT \'\''); } catch { /* exists */ }
   try { db.run('ALTER TABLE projects ADD COLUMN logo TEXT DEFAULT \'\''); } catch { /* exists */ }
 
@@ -56,22 +64,6 @@ function seedData() {
 }
 
 export function getDB(): Database { if (!db) throw new Error('DB not initialized'); return db; }
-export function saveDB() {
-  if (!db) return;
-  try {
-    const data = db.export();
-    const buffer = Buffer.from(data);
-    fs.writeFileSync(DB_PATH, buffer);
-  } catch (err) {
-    console.error('Failed to save database:', err);
-  }
-}
-
-// Auto-save every 30 seconds
+export function saveDB() { if (!db) return; try { fs.writeFileSync(DB_PATH, Buffer.from(db.export())); } catch { /* */ } }
 setInterval(() => { try { saveDB(); } catch { /* */ } }, 30000);
-
-// Backup endpoint data
-export function getDBBackup(): string {
-  if (!db) return '';
-  return Buffer.from(db.export()).toString('base64');
-}
+export function getDBBackup(): string { if (!db) return ''; return Buffer.from(db.export()).toString('base64'); }
