@@ -6,6 +6,7 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import Card from '@/components/ui/Card';
 import Modal from '@/components/ui/Modal';
+import JalaliDateInput from '@/components/ui/JalaliDateInput';
 import { toPersianNumber, toJalaliDate } from '@/lib/helpers';
 import type { WorkshopItem, WorkshopLoan } from '@/lib/types';
 
@@ -150,10 +151,8 @@ export default function WorkshopPage() {
         <Input label={`تعداد (حداکثر: ${toPersianNumber(maxQty)})`} type="number" min="1" max={maxQty} value={lQty} onChange={(e) => setLQty(e.target.value)} />
         <Input label="نام قرض‌گیرنده" value={lBorrower} onChange={(e) => setLBorrower(e.target.value)} />
         <Input label="شماره گروه" value={lGroup} onChange={(e) => setLGroup(e.target.value)} />
-        <div className="grid grid-cols-2 gap-3">
-          <Input label="تاریخ قرض" type="date" value={lBorrowDate} onChange={(e) => setLBorrowDate(e.target.value)} />
-          <Input label="مهلت بازگشت" type="date" value={lReturnDate} onChange={(e) => setLReturnDate(e.target.value)} />
-        </div>
+        <JalaliDateInput label="تاریخ قرض" value={lBorrowDate} onChange={setLBorrowDate} />
+        <JalaliDateInput label="مهلت بازگشت" value={lReturnDate} onChange={setLReturnDate} />
         {lErr && <div className="p-3 rounded-xl bg-ruby/10 border border-ruby/20 text-ruby-glow text-sm text-center">{lErr}</div>}
         <div className="flex gap-3"><Button type="submit" loading={lLoad} className="flex-1">ثبت قرض</Button><Button type="button" variant="ghost" onClick={() => setShowLoanModal(false)}>انصراف</Button></div>
       </form>
