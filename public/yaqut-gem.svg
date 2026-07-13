@@ -10,8 +10,6 @@
     </radialGradient>
   </defs>
   <g clip-path="url(#circle-clip)">
-    <!-- Dark background circle -->
-    <circle cx="100" cy="100" r="95" fill="#0A1628"/>
     <!-- Facets - bottom half -->
     <polygon points="20,140 60,110 40,180" fill="#E8446D" opacity="0.9"/>
     <polygon points="60,110 100,130 40,180" fill="#D63B60" opacity="0.85"/>
