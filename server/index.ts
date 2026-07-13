@@ -5,6 +5,7 @@ import authRoutes from './routes/auth';
 import projectRoutes from './routes/projects';
 import yaqutRoutes from './routes/yaqut';
 import leaderboardRoutes from './routes/leaderboard';
+import workshopRoutes from './routes/workshop';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -19,6 +20,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/yaqut', yaqutRoutes);
 app.use('/api/leaderboard', leaderboardRoutes);
+app.use('/api/workshop', workshopRoutes);
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 
 // Backup endpoint - download database
