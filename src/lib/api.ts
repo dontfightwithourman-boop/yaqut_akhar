@@ -41,7 +41,24 @@ export const workshopAPI = {
   updateItem: (id: string, data: Record<string, unknown>) => request<{ success: boolean }>(`/workshop/items/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteItem: (id: string) => request<{ success: boolean }>(`/workshop/items/${id}`, { method: 'DELETE' }),
   getLoans: () => request<{ loans: WorkshopLoan[] }>('/workshop/loans'),
-  createLoan: (data: { item_id: string; item_name: string; quantity?: number; group_name?: string; borrower_name?: string; borrow_date: string; return_date: string }) => request<{ loan: WorkshopLoan }>('/workshop/loans', { method: 'POST', body: JSON.stringify(data) }),
+  createLoan: (data: { item_id: string; item_name: string; quantity?: number; group_number?: string; borrower_name?: string; borrow_date: string; return_date: string }) => request<{ loan: WorkshopLoan }>('/workshop/loans', { method: 'POST', body: JSON.stringify(data) }),
   updateLoan: (id: string, data: { status: string }) => request<{ success: boolean }>(`/workshop/loans/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteLoan: (id: string) => request<{ success: boolean }>(`/workshop/loans/${id}`, { method: 'DELETE' }),
+};
+
+// Backup API
+export const backupAPI = {
+  export: async () => {
+    const token = localStorage.getItem('yaghout_token');
+    const res = await fetch(`${API_URL}/backup/export`, { headers: { 'Authorization': `Bearer ${token}` } });
+    if (!res.ok) throw new Error('خطا در تهیه نسخه پشتیبان');
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `yaghout-backup-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  },
+  import: (data: Record<string, unknown>) => request<{ success: boolean; message: string }>('/backup/import', { method: 'POST', body: JSON.stringify({ data }) }),
 };
