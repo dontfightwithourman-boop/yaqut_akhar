@@ -1,18 +1,44 @@
 import type { User, Project, LeaderboardEntry, WorkshopItem, WorkshopLoan } from './types';
 
+// In browser: use Next.js rewrite proxy (/api)
+// On server: use direct backend URL
 const API_URL = typeof window !== 'undefined' ? '/api' : (process.env.BACKEND_URL || 'http://localhost:3001') + '/api';
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const token = typeof window !== 'undefined' ? localStorage.getItem('yaghout_token') : null;
   const headers: Record<string, string> = { 'Content-Type': 'application/json', ...(options.headers as Record<string, string>) };
   if (token) headers['Authorization'] = `Bearer ${token}`;
+
   let res: Response;
-  try { res = await fetch(`${API_URL}${path}`, { ...options, headers }); }
-  catch { throw new Error('سرور در دسترس نیست.'); }
+  try {
+    res = await fetch(`${API_URL}${path}`, { ...options, headers });
+  } catch (err) {
+    throw new Error('سرور در دسترس نیست. لطفاً مطمئن شوید سرور پشتیبان در حال اجراست.');
+  }
+
+  // Read response as text first to handle non-JSON responses
   const text = await res.text();
+
+  // If empty response
+  if (!text || text.trim() === '') {
+    if (!res.ok) throw new Error(`خطای سرور (${res.status})`);
+    throw new Error('پاسخ خالی از سرور');
+  }
+
+  // Try to parse as JSON
   let data: Record<string, unknown>;
-  try { data = JSON.parse(text); } catch { throw new Error('پاسخ نامعتبر از سرور'); }
-  if (!res.ok) throw new Error((data as { error?: string }).error || 'خطای سرور');
+  try {
+    data = JSON.parse(text);
+  } catch {
+    // If not JSON, show the actual response for debugging
+    const preview = text.substring(0, 200);
+    throw new Error(`پاسخ نامعتبر از سرور: ${preview}`);
+  }
+
+  if (!res.ok) {
+    throw new Error((data as { error?: string }).error || `خطای سرور (${res.status})`);
+  }
+
   return data as T;
 }
 
@@ -34,7 +60,6 @@ export const yaqutAPI = {
 };
 export const leaderboardAPI = { get: () => request<{ leaderboard: LeaderboardEntry[] }>('/leaderboard') };
 
-// Workshop API
 export const workshopAPI = {
   getItems: () => request<{ items: WorkshopItem[] }>('/workshop/items'),
   createItem: (data: { name: string; location?: string; quantity?: number; description?: string }) => request<{ item: WorkshopItem }>('/workshop/items', { method: 'POST', body: JSON.stringify(data) }),
@@ -46,7 +71,6 @@ export const workshopAPI = {
   deleteLoan: (id: string) => request<{ success: boolean }>(`/workshop/loans/${id}`, { method: 'DELETE' }),
 };
 
-// Backup API
 export const backupAPI = {
   export: async () => {
     const token = localStorage.getItem('yaghout_token');
