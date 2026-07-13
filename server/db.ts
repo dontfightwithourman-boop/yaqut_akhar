@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const DB_PATH = path.join(__dirname, 'yaghout.db');
+const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'yaghout.db');
 let db: Database;
 
 export function queryAll(db: Database, sql: string, params: Record<string, any> = {}): Record<string, any>[] {
@@ -24,10 +24,9 @@ export async function initDB(): Promise<Database> {
   db.run('CREATE TABLE IF NOT EXISTS members (id INTEGER PRIMARY KEY AUTOINCREMENT, project_id TEXT NOT NULL, name TEXT NOT NULL, period TEXT, FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE)');
   db.run('CREATE TABLE IF NOT EXISTS yaqut_events (id TEXT PRIMARY KEY, project_id TEXT NOT NULL, amount INTEGER NOT NULL, awarded_at TEXT DEFAULT (datetime(\'now\')), note TEXT, FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE)');
 
-  // Migration: add columns if missing (for existing DBs)
-  try { db.run('ALTER TABLE projects ADD COLUMN description TEXT DEFAULT \'\''); } catch { /* already exists */ }
-  try { db.run('ALTER TABLE projects ADD COLUMN logo TEXT DEFAULT \'\''); } catch { /* already exists */ }
-  try { db.run('ALTER TABLE projects ADD COLUMN name_en TEXT DEFAULT \'\''); } catch { /* already exists */ }
+  // Migration
+  try { db.run('ALTER TABLE projects ADD COLUMN description TEXT DEFAULT \'\''); } catch { /* exists */ }
+  try { db.run('ALTER TABLE projects ADD COLUMN logo TEXT DEFAULT \'\''); } catch { /* exists */ }
 
   const count = queryOne(db, 'SELECT COUNT(*) as cnt FROM projects');
   if (count && count.cnt === 0) seedData();
@@ -53,4 +52,22 @@ function seedData() {
 }
 
 export function getDB(): Database { if (!db) throw new Error('DB not initialized'); return db; }
-export function saveDB() { if (!db) return; fs.writeFileSync(DB_PATH, Buffer.from(db.export())); }
+export function saveDB() {
+  if (!db) return;
+  try {
+    const data = db.export();
+    const buffer = Buffer.from(data);
+    fs.writeFileSync(DB_PATH, buffer);
+  } catch (err) {
+    console.error('Failed to save database:', err);
+  }
+}
+
+// Auto-save every 30 seconds
+setInterval(() => { try { saveDB(); } catch { /* */ } }, 30000);
+
+// Backup endpoint data
+export function getDBBackup(): string {
+  if (!db) return '';
+  return Buffer.from(db.export()).toString('base64');
+}

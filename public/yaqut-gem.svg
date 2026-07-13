@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <clipPath id="circle-clip">
+      <circle cx="100" cy="100" r="95"/>
+    </clipPath>
+    <radialGradient id="center-glow" cx="45%" cy="40%" r="45%">
+      <stop offset="0%" stop-color="#FFE4E1" stop-opacity="0.9"/>
+      <stop offset="40%" stop-color="#FFB6C1" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#C15959" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g clip-path="url(#circle-clip)">
+    <!-- Dark background circle -->
+    <circle cx="100" cy="100" r="95" fill="#0A1628"/>
+    <!-- Facets - bottom half -->
+    <polygon points="20,140 60,110 40,180" fill="#E8446D" opacity="0.9"/>
+    <polygon points="60,110 100,130 40,180" fill="#D63B60" opacity="0.85"/>
+    <polygon points="100,130 140,110 160,180" fill="#C93055" opacity="0.9"/>
+    <polygon points="140,110 180,140 160,180" fill="#B8284A" opacity="0.85"/>
+    <polygon points="40,180 100,130 160,180" fill="#A01E3E" opacity="0.8"/>
+    <!-- Facets - top half -->
+    <polygon points="20,140 60,110 50,60" fill="#F06080" opacity="0.85"/>
+    <polygon points="60,110 100,80 50,60" fill="#E85070" opacity="0.9"/>
+    <polygon points="100,80 140,110 150,60" fill="#D84060" opacity="0.85"/>
+    <polygon points="140,110 180,140 150,60" fill="#C83050" opacity="0.8"/>
+    <!-- Top facets -->
+    <polygon points="50,60 100,20 100,80" fill="#F57090" opacity="0.9"/>
+    <polygon points="100,20 150,60 100,80" fill="#E86080" opacity="0.85"/>
+    <polygon points="50,60 100,20 20,50" fill="#FF80A0" opacity="0.8"/>
+    <polygon points="150,60 100,20 180,50" fill="#D04060" opacity="0.75"/>
+    <!-- Orange/warm accent facets -->
+    <polygon points="20,50 50,60 30,90" fill="#E87040" opacity="0.7"/>
+    <polygon points="180,50 150,60 170,90" fill="#D06030" opacity="0.65"/>
+    <polygon points="30,90 20,140 50,110" fill="#D05838" opacity="0.6"/>
+    <polygon points="170,90 180,140 150,110" fill="#C04828" opacity="0.55"/>
+    <!-- Pink/magenta facets -->
+    <polygon points="60,110 100,130 80,150" fill="#E04878" opacity="0.7"/>
+    <polygon points="140,110 100,130 120,150" fill="#D03868" opacity="0.65"/>
+    <!-- Center glow -->
+    <circle cx="90" cy="85" r="45" fill="url(#center-glow)"/>
+    <!-- Subtle highlight -->
+    <ellipse cx="85" cy="75" rx="20" ry="12" fill="white" opacity="0.15"/>
+  </g>
+  <!-- Outer ring -->
+  <circle cx="100" cy="100" r="95" fill="none" stroke="#C15959" stroke-width="2" opacity="0.3"/>
+</svg>

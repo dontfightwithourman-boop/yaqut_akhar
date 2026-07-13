@@ -1,7 +1,7 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Users, Clock, Trophy, Settings, Upload } from 'lucide-react';
+import { Users, Clock, Trophy, Settings, Upload, X } from 'lucide-react';
 import { useAuth } from '@/lib/auth';
 import { projectsAPI, leaderboardAPI } from '@/lib/api';
 import Navbar from '@/components/layout/Navbar';
@@ -21,6 +21,7 @@ export default function StudentProjectPage() {
   const [loading, setLoading] = useState(true); const [error, setError] = useState('');
   const [showSettings, setShowSettings] = useState(false);
   const [sName, setSName] = useState(''); const [sDesc, setSDesc] = useState(''); const [sLogo, setSLogo] = useState(''); const [sMembers, setSMembers] = useState<{ name: string; period: string }[]>([]); const [sErr, setSErr] = useState(''); const [sLoad, setSLoad] = useState(false); const [saveMsg, setSaveMsg] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const loadProject = () => {
     if (!user || user.role !== 'project') return;
@@ -31,6 +32,15 @@ export default function StudentProjectPage() {
 
   useEffect(() => { if (!authLoading && (!user || user.role !== 'project')) window.location.href = '/'; }, [user, authLoading]);
   useEffect(() => { loadProject(); }, [user]);
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) { setSErr('حجم تصویر باید کمتر از ۲ مگابایت باشد'); return; }
+    const reader = new FileReader();
+    reader.onload = (ev) => { setSLogo(ev.target?.result as string); };
+    reader.readAsDataURL(file);
+  };
 
   const handleSave = async () => {
     if (!user || user.role !== 'project') return;
@@ -56,12 +66,12 @@ export default function StudentProjectPage() {
       </div>
       {rank && <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="flex justify-center"><div className={`inline-flex items-center gap-2 px-6 py-3 rounded-2xl ${rank === 1 ? 'bg-beige/15 border border-beige/25 text-beige-dark dark:bg-beige/20 dark:text-beige' : rank === 2 ? 'bg-sky/15 border border-sky/25 text-sky' : rank === 3 ? 'bg-ruby/10 border border-ruby/20 text-ruby dark:bg-ruby/20 dark:text-ruby-glow' : 'bg-navy/5 border border-navy/10 text-navy/60 dark:bg-navy-light/40 dark:text-beige-light'}`}><Trophy className="w-5 h-5" /><span className="font-bold">رتبه {toPersianNumber(rank)}</span></div></motion.div>}
 
-      <Card className="p-10 text-center relative overflow-hidden"><SparkleEffect count={12} /><motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', bounce: 0.4 }}><YaqutIcon size={72} animate /></motion.div><motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}><div className="text-7xl font-black text-navy mt-4 dark:text-cream">{toPersianNumber(project.yaqut_count)}</div><div className="text-xl text-navy/50 mt-2 dark:text-beige-light">یاقوت</div></motion.div></Card>
+      <Card className="p-8 sm:p-10 text-center relative overflow-hidden"><SparkleEffect count={12} /><motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', bounce: 0.4 }}><YaqutIcon size={72} animate /></motion.div><motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}><div className="text-6xl sm:text-7xl font-black text-navy mt-4 dark:text-cream">{toPersianNumber(project.yaqut_count)}</div><div className="text-xl text-navy/50 mt-2 dark:text-beige-light">یاقوت</div></motion.div></Card>
 
       {saveMsg && <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-sm text-center">{saveMsg}</motion.div>}
 
-      <div className="flex gap-3">
-        <button onClick={() => setShowSettings(!showSettings)} className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-white/60 border border-navy/8 text-navy/60 hover:text-navy hover:bg-white/80 transition-all dark:bg-navy/60 dark:border-beige/10 dark:text-beige-light dark:hover:text-cream dark:hover:bg-navy-light/30"><Settings className="w-4 h-4" />تنظیمات پروژه</button>
+      <div className="flex flex-col sm:flex-row gap-3">
+        <button onClick={() => setShowSettings(!showSettings)} className="flex items-center justify-center gap-2 px-4 py-3 rounded-2xl bg-white/60 border border-navy/8 text-navy/60 hover:text-navy hover:bg-white/80 transition-all dark:bg-navy/60 dark:border-beige/10 dark:text-beige-light dark:hover:text-cream dark:hover:bg-navy-light/30"><Settings className="w-4 h-4" />تنظیمات پروژه</button>
         <a href="/leaderboard" className="flex-1 flex items-center justify-center gap-2 p-4 rounded-2xl bg-white/60 border border-navy/8 text-navy/60 hover:text-navy hover:bg-white/80 transition-all dark:bg-navy/60 dark:border-beige/10 dark:text-beige-light dark:hover:text-cream dark:hover:bg-navy-light/30"><Trophy className="w-4 h-4" />رتبه‌بندی</a>
       </div>
 
@@ -69,13 +79,23 @@ export default function StudentProjectPage() {
         <div className="space-y-4">
           <Input label="نام پروژه" value={sName} onChange={(e) => setSName(e.target.value)} />
           <div className="space-y-1.5"><label className="block text-sm font-medium text-navy dark:text-beige-light">توضیحات</label><textarea value={sDesc} onChange={(e) => setSDesc(e.target.value)} rows={3} className="w-full px-4 py-3 rounded-xl bg-white/80 border border-navy/15 text-navy placeholder-navy/30 focus:outline-none focus:ring-2 focus:ring-ruby/50 dark:bg-navy-light/40 dark:border-beige/15 dark:text-cream dark:placeholder-sky/40 resize-none" dir="auto" /></div>
-          <Input label="لوگو (URL تصویر)" value={sLogo} onChange={(e) => setSLogo(e.target.value)} placeholder="https://example.com/logo.png" dir="ltr" />
-          {sLogo && <div className="text-center"><img src={sLogo} alt="Logo preview" className="w-16 h-16 rounded-xl object-cover mx-auto border border-navy/10 dark:border-beige/20" onError={(e) => (e.target as HTMLImageElement).style.display = 'none'} /></div>}
+
+          {/* Image Upload */}
+          <div className="space-y-1.5">
+            <label className="block text-sm font-medium text-navy dark:text-beige-light">لوگوی پروژه</label>
+            <input type="file" ref={fileInputRef} accept="image/*" onChange={handleImageUpload} className="hidden" />
+            <div className="flex items-center gap-3">
+              <button type="button" onClick={() => fileInputRef.current?.click()} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/60 border border-navy/10 text-navy/60 hover:text-navy hover:bg-white/80 transition-all dark:bg-navy-light/30 dark:border-beige/15 dark:text-beige-light dark:hover:text-cream"><Upload className="w-4 h-4" />انتخاب تصویر</button>
+              {sLogo && <button type="button" onClick={() => setSLogo('')} className="flex items-center gap-1 px-3 py-2 rounded-xl text-ruby hover:text-ruby-glow text-sm"><X className="w-3 h-3" />حذف</button>}
+            </div>
+            {sLogo && <div className="mt-2 text-center"><img src={sLogo} alt="Logo preview" className="w-20 h-20 rounded-xl object-cover mx-auto border border-navy/10 dark:border-beige/20" /></div>}
+          </div>
+
           <div><div className="flex items-center justify-between mb-2"><label className="text-sm font-medium text-navy/60 dark:text-beige-light">اعضا</label><button type="button" onClick={addM} className="text-xs text-ruby hover:text-ruby-glow transition-colors">+ افزودن عضو</button></div>
             <div className="space-y-2">{sMembers.map((m, i) => <div key={i} className="flex gap-2 items-center">
               <span className="text-xs font-bold text-navy/40 dark:text-sky w-6 text-center">{toPersianNumber(i + 1)}</span>
               <input placeholder="نام" value={m.name} onChange={(e) => updM(i, 'name', e.target.value)} className="flex-1 px-3 py-2 rounded-lg bg-white/60 border border-navy/10 text-navy text-sm focus:outline-none focus:ring-1 focus:ring-ruby/50 dark:bg-navy-light/30 dark:border-beige/15 dark:text-cream" />
-              <input placeholder="دوره" value={m.period} onChange={(e) => updM(i, 'period', e.target.value)} className="w-28 px-3 py-2 rounded-lg bg-white/60 border border-navy/10 text-navy text-sm dark:bg-navy-light/30 dark:border-beige/15 dark:text-cream" />
+              <input placeholder="دوره" value={m.period} onChange={(e) => updM(i, 'period', e.target.value)} className="w-24 sm:w-28 px-3 py-2 rounded-lg bg-white/60 border border-navy/10 text-navy text-sm dark:bg-navy-light/30 dark:border-beige/15 dark:text-cream" />
               <button type="button" onClick={() => rmM(i)} className="px-2 text-ruby-glow hover:text-ruby">✕</button>
             </div>)}</div></div>
           {sErr && <div className="p-3 rounded-xl bg-ruby/10 border border-ruby/20 text-ruby-glow text-sm text-center">{sErr}</div>}
@@ -83,7 +103,7 @@ export default function StudentProjectPage() {
         </div>
       </Card>}
 
-      <Card className="p-6"><h2 className="text-lg font-bold text-navy mb-4 flex items-center gap-2 dark:text-cream"><Users className="w-5 h-5 text-sky" />اعضای تیم</h2><div className="space-y-3">{project.members?.map((m, i) => <motion.div key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }} className="flex items-center gap-3 p-3 rounded-xl bg-navy/3 dark:bg-navy-light/30"><div className="w-10 h-10 rounded-full bg-gradient-to-br from-ruby to-beige flex items-center justify-center text-cream font-bold text-sm">{m.name.charAt(0)}</div><div><div className="font-medium text-navy dark:text-cream">{m.name}</div><div className="text-xs text-sky">{m.period && 'دوره: ' + m.period}{m.student_id && ' • کد: ' + m.student_id}{m.class_name && ' • ' + m.class_name}</div></div></motion.div>)}</div></Card>
+      <Card className="p-6"><h2 className="text-lg font-bold text-navy mb-4 flex items-center gap-2 dark:text-cream"><Users className="w-5 h-5 text-sky" />اعضای تیم</h2><div className="space-y-3">{project.members?.map((m, i) => <motion.div key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.1 }} className="flex items-center gap-3 p-3 rounded-xl bg-navy/3 dark:bg-navy-light/30"><div className="w-10 h-10 rounded-full bg-gradient-to-br from-ruby to-beige flex items-center justify-center text-cream font-bold text-sm shrink-0">{m.name.charAt(0)}</div><div><div className="font-medium text-navy dark:text-cream">{m.name}</div><div className="text-xs text-sky">{m.period && 'دوره: ' + m.period}</div></div></motion.div>)}</div></Card>
 
       {project.yaqut_history && project.yaqut_history.length > 0 && <Card className="p-6"><h2 className="text-lg font-bold text-navy mb-4 flex items-center gap-2 dark:text-cream"><Clock className="w-5 h-5 text-beige" />تاریخچه یاقوت</h2><div className="space-y-2">{project.yaqut_history.map((ev) => <div key={ev.id} className="flex items-center justify-between p-3 rounded-xl bg-navy/3 dark:bg-navy-light/30"><div className="flex items-center gap-2"><YaqutIcon size={16} animate={false} /><span className="text-navy font-bold dark:text-cream">+{toPersianNumber(ev.amount)}</span>{ev.note && <span className="text-xs text-sky">({ev.note})</span>}</div><span className="text-xs text-sky">{formatDate(ev.awarded_at)}</span></div>)}</div></Card>}
     </motion.div></main><Footer /></div>);

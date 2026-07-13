@@ -23,6 +23,7 @@ export const authAPI = {
 export const projectsAPI = {
   list: () => request<{ projects: Project[] }>('/projects'),
   get: (id: string) => request<{ project: Project }>(`/projects/${id}`),
+  getPublic: (id: string) => request<{ project: Project }>(`/projects/public/${id}`),
   create: (data: Record<string, unknown>) => request<{ project: Project }>('/projects', { method: 'POST', body: JSON.stringify(data) }),
   update: (id: string, data: Record<string, unknown>) => request<{ success: boolean }>(`/projects/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   delete: (id: string) => request<{ success: boolean }>(`/projects/${id}`, { method: 'DELETE' }),
