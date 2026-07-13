@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Menu, X, LogOut, Shield, BarChart3 } from 'lucide-react';
+import { Menu, X, LogOut, Shield, BarChart3, FolderOpen } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '@/lib/auth';
 import ThemeToggle from '@/components/ui/ThemeToggle';
@@ -17,6 +17,7 @@ export default function Navbar() {
           <Link href="/" className="flex items-center gap-2 group"><YaqutIcon size={28} animate /><span className="text-xl font-bold text-navy group-hover:text-ruby transition-colors dark:text-cream dark:group-hover:text-ruby-glow">یاقوت سمینار</span></Link>
           <div className="hidden md:flex items-center gap-4">
             <Link href="/leaderboard" className="flex items-center gap-2 px-4 py-2 rounded-xl text-navy/70 hover:text-navy hover:bg-navy/5 transition-all dark:text-beige-light dark:hover:text-cream dark:hover:bg-navy-light/40"><BarChart3 className="w-4 h-4" /><span>رتبه‌بندی</span></Link>
+            {user?.role === 'project' && <Link href="/project" className="flex items-center gap-2 px-4 py-2 rounded-xl text-ruby hover:text-ruby-glow hover:bg-ruby/5 transition-all dark:text-ruby-glow dark:hover:bg-ruby/10"><FolderOpen className="w-4 h-4" /><span>پروژه من</span></Link>}
             {user?.role === 'admin' && <Link href="/admin" className="flex items-center gap-2 px-4 py-2 rounded-xl text-navy/70 hover:text-navy hover:bg-navy/5 transition-all dark:text-beige-light dark:hover:text-cream dark:hover:bg-navy-light/40"><Shield className="w-4 h-4" /><span>مدیریت</span></Link>}
             {user && <button onClick={logout} className="flex items-center gap-2 px-4 py-2 rounded-xl text-sky hover:text-ruby hover:bg-ruby/5 transition-all dark:hover:text-ruby-glow dark:hover:bg-ruby/10"><LogOut className="w-4 h-4" /><span>خروج</span></button>}
             <ThemeToggle />
@@ -27,6 +28,7 @@ export default function Navbar() {
       {open && <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="md:hidden bg-white/95 backdrop-blur-xl border-b border-navy/10 dark:bg-navy/95 dark:border-beige/10">
         <div className="px-4 py-4 space-y-2">
           <Link href="/leaderboard" className="flex items-center gap-2 px-4 py-3 rounded-xl text-navy/70 hover:text-navy hover:bg-navy/5 dark:text-beige-light dark:hover:text-cream dark:hover:bg-navy-light/40" onClick={() => setOpen(false)}><BarChart3 className="w-4 h-4" /><span>رتبه‌بندی</span></Link>
+          {user?.role === 'project' && <Link href="/project" className="flex items-center gap-2 px-4 py-3 rounded-xl text-ruby hover:text-ruby-glow hover:bg-ruby/5 dark:text-ruby-glow dark:hover:bg-ruby/10" onClick={() => setOpen(false)}><FolderOpen className="w-4 h-4" /><span>پروژه من</span></Link>}
           {user?.role === 'admin' && <Link href="/admin" className="flex items-center gap-2 px-4 py-3 rounded-xl text-navy/70 hover:text-navy hover:bg-navy/5 dark:text-beige-light dark:hover:text-cream dark:hover:bg-navy-light/40" onClick={() => setOpen(false)}><Shield className="w-4 h-4" /><span>مدیریت</span></Link>}
           {user && <button onClick={() => { logout(); setOpen(false); }} className="flex items-center gap-2 w-full px-4 py-3 rounded-xl text-sky hover:text-ruby hover:bg-ruby/5 dark:hover:text-ruby-glow dark:hover:bg-ruby/10"><LogOut className="w-4 h-4" /><span>خروج</span></button>}
           <div className="flex items-center justify-center pt-2"><ThemeToggle /></div>
