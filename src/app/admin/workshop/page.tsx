@@ -107,6 +107,7 @@ export default function WorkshopPage() {
           <div className="flex items-start justify-between gap-3">
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1 flex-wrap">
+                <span className="text-xs font-bold text-navy/40 dark:text-sky bg-navy/5 dark:bg-navy-light/30 px-2 py-0.5 rounded">#{toPersianNumber(loan.loan_number || 0)}</span>
                 <h3 className="font-bold text-navy text-sm dark:text-cream">{loan.item_name}</h3>
                 {status === 'overdue' && <span className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-red-500/10 text-red-500 dark:bg-red-500/20 dark:text-red-400"><AlertTriangle className="w-3 h-3" />سررسید گذشته</span>}
                 {status === 'active' && <span className="flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400"><Clock className="w-3 h-3" />{getRemainingDays(loan.return_date)}</span>}

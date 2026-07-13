@@ -5,7 +5,6 @@ import { authenticateToken, requireAdmin } from '../middleware/auth';
 
 const router = Router();
 
-// ==================== WORKSHOP ITEMS ====================
 router.get('/items', authenticateToken, requireAdmin, (req: Request, res: Response) => {
   const db = getDB();
   const items = queryAll(db, 'SELECT * FROM workshop_items ORDER BY created_at DESC');
@@ -25,8 +24,7 @@ router.post('/items', authenticateToken, requireAdmin, (req: Request, res: Respo
 });
 
 router.put('/items/:id', authenticateToken, requireAdmin, (req: Request, res: Response) => {
-  const db = getDB();
-  const { id } = req.params;
+  const db = getDB(); const { id } = req.params;
   const { name, location, quantity, description } = req.body;
   if (!queryOne(db, 'SELECT id FROM workshop_items WHERE id = $id', { $id: id })) return res.status(404).json({ error: 'وسیله یافت نشد' });
   const u: string[] = []; const p: Record<string, any> = { $id: id };
@@ -45,7 +43,7 @@ router.delete('/items/:id', authenticateToken, requireAdmin, (req: Request, res:
   db.run('DELETE FROM workshop_items WHERE id = $id', { $id: id }); saveDB(); res.json({ success: true });
 });
 
-// ==================== WORKSHOP LOANS ====================
+// ==================== LOANS ====================
 router.get('/loans', authenticateToken, requireAdmin, (req: Request, res: Response) => {
   const db = getDB();
   const loans = queryAll(db, 'SELECT * FROM workshop_loans ORDER BY return_date ASC');
@@ -62,11 +60,17 @@ router.post('/loans', authenticateToken, requireAdmin, (req: Request, res: Respo
   const loanedResult = queryOne(db, "SELECT COALESCE(SUM(quantity), 0) as loaned FROM workshop_loans WHERE item_id = $id AND status != 'returned'", { $id: item_id });
   const currentlyLoaned = loanedResult ? (loanedResult.loaned as number) : 0;
   if (qty > (item.quantity as number) - currentlyLoaned) return res.status(400).json({ error: `تعداد موجود کافی نیست. موجود: ${(item.quantity as number) - currentlyLoaned}` });
+
+  // Generate loan number
+  const loanCount = queryOne(db, 'SELECT COUNT(*) as cnt FROM workshop_loans');
+  const loanNumber = ((loanCount?.cnt as number) || 0) + 1;
+
   const id = uuidv4();
-  db.run('INSERT INTO workshop_loans (id, item_id, item_name, quantity, group_number, borrower_name, borrow_date, return_date, status) VALUES ($id, $iid, $in, $qty, $gn, $bn, $bd, $rd, $st)', {
-    $id: id, $iid: item_id, $in: item_name.trim(), $qty: qty, $gn: (group_number || '').trim(), $bn: (borrower_name || '').trim(), $bd: borrow_date, $rd: return_date, $st: 'borrowed'
+  db.run('INSERT INTO workshop_loans (id, loan_number, item_id, item_name, quantity, group_number, borrower_name, borrow_date, return_date, status) VALUES ($id, $ln, $iid, $in, $qty, $gn, $bn, $bd, $rd, $st)', {
+    $id: id, $ln: loanNumber, $iid: item_id, $in: item_name.trim(), $qty: qty, $gn: (group_number || '').trim(), $bn: (borrower_name || '').trim(), $bd: borrow_date, $rd: return_date, $st: 'borrowed'
   });
-  saveDB(); res.json({ loan: { id, item_id, item_name: item_name.trim(), quantity: qty, group_number: (group_number || '').trim(), borrower_name: (borrower_name || '').trim(), borrow_date, return_date, status: 'borrowed' } });
+  saveDB();
+  res.json({ loan: { id, loan_number: loanNumber, item_id, item_name: item_name.trim(), quantity: qty, group_number: (group_number || '').trim(), borrower_name: (borrower_name || '').trim(), borrow_date, return_date, status: 'borrowed' } });
 });
 
 router.put('/loans/:id', authenticateToken, requireAdmin, (req: Request, res: Response) => {
@@ -86,7 +90,6 @@ router.delete('/loans/:id', authenticateToken, requireAdmin, (req: Request, res:
   db.run('DELETE FROM workshop_loans WHERE id = $id', { $id: id }); saveDB(); res.json({ success: true });
 });
 
-// Get loans for a specific project member (public)
 router.get('/loans-by-member/:name', (req: Request, res: Response) => {
   const db = getDB();
   const loans = queryAll(db, "SELECT * FROM workshop_loans WHERE borrower_name = $name AND status != 'returned' ORDER BY return_date ASC", { $name: req.params.name });
