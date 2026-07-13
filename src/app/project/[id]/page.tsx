@@ -9,7 +9,7 @@ import Card from '@/components/ui/Card';
 import YaqutIcon from '@/components/YaqutIcon';
 import SparkleEffect from '@/components/SparkleEffect';
 import ParticleBackground from '@/components/ParticleBackground';
-import { toPersianNumber, toJalaliDate } from '@/lib/helpers';
+import { toPersianNumber, formatDate } from '@/lib/helpers';
 import type { Project, LeaderboardEntry, WorkshopLoan } from '@/lib/types';
 import Link from 'next/link';
 
@@ -66,9 +66,9 @@ export default function PublicProjectPage({ params }: { params: { id: string } }
           <div className="flex items-center gap-2">{isOverdue && <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" />}
             <div><div className="font-medium text-navy text-sm dark:text-cream">{loan.item_name} × {toPersianNumber(loan.quantity)}</div><div className="text-xs text-sky">گروه {loan.group_number} • {loan.borrower_name}</div></div>
           </div>
-          <div className="text-left shrink-0"><div className={`text-xs font-medium ${isOverdue ? 'text-red-500' : 'text-navy/50 dark:text-beige-light'}`}>{getRemainingDays(loan.return_date)}</div><div className="text-xs text-navy/40 dark:text-beige-light/60">تا {toJalaliDate(loan.return_date)}</div></div>
+          <div className="text-left shrink-0"><div className={`text-xs font-medium ${isOverdue ? 'text-red-500' : 'text-navy/50 dark:text-beige-light'}`}>{getRemainingDays(loan.return_date)}</div><div className="text-xs text-navy/40 dark:text-beige-light/60">تا {formatDate(loan.return_date)}</div></div>
         </div>); })}</div>
       </Card>}
-      {project.yaqut_history && project.yaqut_history.length > 0 && <Card className="p-4 sm:p-6"><h2 className="text-base sm:text-lg font-bold text-navy mb-3 sm:mb-4 flex items-center gap-2 dark:text-cream"><Clock className="w-4 h-4 sm:w-5 sm:h-5 text-beige" />تاریخچه یاقوت</h2><div className="space-y-2">{project.yaqut_history.map((ev) => <div key={ev.id} className="flex items-center justify-between p-2 sm:p-3 rounded-xl bg-navy/3 dark:bg-navy-light/30"><div className="flex items-center gap-2"><YaqutIcon size={14} animate={false} /><span className="text-navy font-bold text-sm dark:text-cream">+{toPersianNumber(ev.amount)}</span>{ev.note && <span className="text-xs text-sky">({ev.note})</span>}</div><span className="text-xs text-sky">{toJalaliDate(ev.awarded_at)}</span></div>)}</div></Card>}
+      {project.yaqut_history && project.yaqut_history.length > 0 && <Card className="p-4 sm:p-6"><h2 className="text-base sm:text-lg font-bold text-navy mb-3 sm:mb-4 flex items-center gap-2 dark:text-cream"><Clock className="w-4 h-4 sm:w-5 sm:h-5 text-beige" />تاریخچه یاقوت</h2><div className="space-y-2">{project.yaqut_history.map((ev) => <div key={ev.id} className="flex items-center justify-between p-2 sm:p-3 rounded-xl bg-navy/3 dark:bg-navy-light/30"><div className="flex items-center gap-2"><YaqutIcon size={14} animate={false} /><span className="text-navy font-bold text-sm dark:text-cream">+{toPersianNumber(ev.amount)}</span>{ev.note && <span className="text-xs text-sky">({ev.note})</span>}</div><span className="text-xs text-sky">{formatDate(ev.awarded_at)}</span></div>)}</div></Card>}
     </motion.div></main><Footer /></div>);
 }

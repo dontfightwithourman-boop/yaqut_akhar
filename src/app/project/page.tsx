@@ -12,7 +12,7 @@ import Input from '@/components/ui/Input';
 import YaqutIcon from '@/components/YaqutIcon';
 import SparkleEffect from '@/components/SparkleEffect';
 import ParticleBackground from '@/components/ParticleBackground';
-import { toPersianNumber, toJalaliDate } from '@/lib/helpers';
+import { toPersianNumber, formatDate } from '@/lib/helpers';
 import type { Project, LeaderboardEntry, WorkshopLoan } from '@/lib/types';
 
 export default function StudentProjectPage() {
@@ -185,7 +185,7 @@ export default function StudentProjectPage() {
                       </div>
                       <div className="text-left shrink-0">
                         <div className={`text-xs font-medium ${isOverdue ? 'text-red-500' : 'text-navy/50 dark:text-beige-light'}`}>{getRemainingDays(loan.return_date)}</div>
-                        <div className="text-xs text-navy/40 dark:text-beige-light/60">تا {toJalaliDate(loan.return_date)}</div>
+                        <div className="text-xs text-navy/40 dark:text-beige-light/60">تا {formatDate(loan.return_date)}</div>
                       </div>
                     </div>
                   );
@@ -206,7 +206,7 @@ export default function StudentProjectPage() {
                       <span className="text-navy font-bold text-sm dark:text-cream">+{toPersianNumber(ev.amount)}</span>
                       {ev.note && <span className="text-xs text-sky">({ev.note})</span>}
                     </div>
-                    <span className="text-xs text-sky">{toJalaliDate(ev.awarded_at)}</span>
+                    <span className="text-xs text-sky">{formatDate(ev.awarded_at)}</span>
                   </div>
                 ))}
               </div>

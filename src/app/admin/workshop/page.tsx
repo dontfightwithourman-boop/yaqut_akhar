@@ -7,7 +7,7 @@ import Input from '@/components/ui/Input';
 import Card from '@/components/ui/Card';
 import Modal from '@/components/ui/Modal';
 import JalaliDateInput from '@/components/ui/JalaliDateInput';
-import { toPersianNumber, toJalaliDate } from '@/lib/helpers';
+import { toPersianNumber, formatDate } from '@/lib/helpers';
 import type { WorkshopItem, WorkshopLoan } from '@/lib/types';
 
 type Tab = 'items' | 'loans';
@@ -117,8 +117,8 @@ export default function WorkshopPage() {
                 <span>تعداد: {toPersianNumber(loan.quantity)}</span>
                 {loan.group_number && <span>شماره گروه: {loan.group_number}</span>}
                 {loan.borrower_name && <span>قرض‌گیرنده: {loan.borrower_name}</span>}
-                <span>تاریخ قرض: {toJalaliDate(loan.borrow_date)}</span>
-                <span>مهلت بازگشت: {toJalaliDate(loan.return_date)}</span>
+                <span>تاریخ قرض: {formatDate(loan.borrow_date)}</span>
+                <span>مهلت بازگشت: {formatDate(loan.return_date)}</span>
               </div>
             </div>
             <div className="flex gap-1 shrink-0">
