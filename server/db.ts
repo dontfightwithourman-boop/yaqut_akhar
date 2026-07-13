@@ -31,6 +31,7 @@ export async function initDB(): Promise<Database> {
   try { db.run('ALTER TABLE projects ADD COLUMN description TEXT DEFAULT \'\''); } catch { /* */ }
   try { db.run('ALTER TABLE projects ADD COLUMN logo TEXT DEFAULT \'\''); } catch { /* */ }
   try { db.run('ALTER TABLE workshop_loans ADD COLUMN loan_number INTEGER'); } catch { /* */ }
+  try { db.run('ALTER TABLE workshop_loans ADD COLUMN phone_number TEXT DEFAULT \'\''); } catch { /* */ }
 
   const count = queryOne(db, 'SELECT COUNT(*) as cnt FROM projects');
   if (count && count.cnt === 0) seedData();

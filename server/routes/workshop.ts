@@ -52,7 +52,7 @@ router.get('/loans', authenticateToken, requireAdmin, (req: Request, res: Respon
 
 router.post('/loans', authenticateToken, requireAdmin, (req: Request, res: Response) => {
   const db = getDB();
-  const { item_id, item_name, quantity, group_number, borrower_name, borrow_date, return_date } = req.body;
+  const { item_id, item_name, quantity, group_number, borrower_name, phone_number, borrow_date, return_date } = req.body;
   if (!item_id || !item_name?.trim() || !borrow_date || !return_date) return res.status(400).json({ error: 'تمام فیلدها الزامی است' });
   const qty = Math.max(1, parseInt(quantity) || 1);
   const item = queryOne(db, 'SELECT id, quantity FROM workshop_items WHERE id = $id', { $id: item_id });
@@ -61,16 +61,15 @@ router.post('/loans', authenticateToken, requireAdmin, (req: Request, res: Respo
   const currentlyLoaned = loanedResult ? (loanedResult.loaned as number) : 0;
   if (qty > (item.quantity as number) - currentlyLoaned) return res.status(400).json({ error: `تعداد موجود کافی نیست. موجود: ${(item.quantity as number) - currentlyLoaned}` });
 
-  // Generate loan number
   const loanCount = queryOne(db, 'SELECT COUNT(*) as cnt FROM workshop_loans');
   const loanNumber = ((loanCount?.cnt as number) || 0) + 1;
 
   const id = uuidv4();
-  db.run('INSERT INTO workshop_loans (id, loan_number, item_id, item_name, quantity, group_number, borrower_name, borrow_date, return_date, status) VALUES ($id, $ln, $iid, $in, $qty, $gn, $bn, $bd, $rd, $st)', {
-    $id: id, $ln: loanNumber, $iid: item_id, $in: item_name.trim(), $qty: qty, $gn: (group_number || '').trim(), $bn: (borrower_name || '').trim(), $bd: borrow_date, $rd: return_date, $st: 'borrowed'
+  db.run('INSERT INTO workshop_loans (id, loan_number, item_id, item_name, quantity, group_number, borrower_name, phone_number, borrow_date, return_date, status) VALUES ($id, $ln, $iid, $in, $qty, $gn, $bn, $pn, $bd, $rd, $st)', {
+    $id: id, $ln: loanNumber, $iid: item_id, $in: item_name.trim(), $qty: qty, $gn: (group_number || '').trim(), $bn: (borrower_name || '').trim(), $pn: (phone_number || '').trim(), $bd: borrow_date, $rd: return_date, $st: 'borrowed'
   });
   saveDB();
-  res.json({ loan: { id, loan_number: loanNumber, item_id, item_name: item_name.trim(), quantity: qty, group_number: (group_number || '').trim(), borrower_name: (borrower_name || '').trim(), borrow_date, return_date, status: 'borrowed' } });
+  res.json({ loan: { id, loan_number: loanNumber, item_id, item_name: item_name.trim(), quantity: qty, group_number: (group_number || '').trim(), borrower_name: (borrower_name || '').trim(), phone_number: (phone_number || '').trim(), borrow_date, return_date, status: 'borrowed' } });
 });
 
 router.put('/loans/:id', authenticateToken, requireAdmin, (req: Request, res: Response) => {

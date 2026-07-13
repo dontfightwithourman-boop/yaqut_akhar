@@ -67,7 +67,7 @@ export const workshopAPI = {
   deleteItem: (id: string) => request<{ success: boolean }>(`/workshop/items/${id}`, { method: 'DELETE' }),
   getLoans: () => request<{ loans: WorkshopLoan[] }>('/workshop/loans'),
   getLoansByMember: (name: string) => request<{ loans: WorkshopLoan[] }>(`/workshop/loans-by-member/${encodeURIComponent(name)}`),
-  createLoan: (data: { item_id: string; item_name: string; quantity?: number; group_number?: string; borrower_name?: string; borrow_date: string; return_date: string }) => request<{ loan: WorkshopLoan }>('/workshop/loans', { method: 'POST', body: JSON.stringify(data) }),
+  createLoan: (data: { item_id: string; item_name: string; quantity?: number; group_number?: string; borrower_name?: string; phone_number?: string; borrow_date: string; return_date: string }) => request<{ loan: WorkshopLoan }>('/workshop/loans', { method: 'POST', body: JSON.stringify(data) }),
   updateLoan: (id: string, data: { status: string }) => request<{ success: boolean }>(`/workshop/loans/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   deleteLoan: (id: string) => request<{ success: boolean }>(`/workshop/loans/${id}`, { method: 'DELETE' }),
 };
