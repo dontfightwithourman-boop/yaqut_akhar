@@ -8,7 +8,7 @@ const vazirmatn = Vazirmatn({ subsets: ['arabic'], weight: ['400', '600', '700',
 export const metadata: Metadata = {
   title: { default: 'چهلمین سمینار علوم و فنون مدرسه راهنمایی علامه حلی 1 تهران', template: '%s | یاقوت سمینار' },
   description: 'چهلمین سمینار علوم و فنون - مدرسه راهنمایی علامه حلی 1 تهران',
-  keywords: ['سمینار', 'یاقوت', 'مسابقه', 'پروژه دانشجویی'],
+  keywords: ['سمینار', 'یاقوت', 'مسابقه', 'چهلمین سمینار علوم و فنون مدرسه راهنمایی علامه حلی 1 تهران'],
   openGraph: { type: 'website', locale: 'fa_IR', siteName: 'چهلمین سمینار علوم و فنون مدرسه راهنمایی علامه حلی 1 تهران', title: 'یاقوت سمینار', description: 'چهلمین سمینار علوم و فنون مدرسه راهنمایی علامه حلی 1 تهران' },
   robots: { index: true, follow: true },
 };
