@@ -69,9 +69,9 @@ export default function WorkshopPage() {
   const maxQty = selectedItem ? selectedItem.quantity - loans.filter((l) => l.item_id === lItemId && l.status !== 'returned').reduce((s, l) => s + l.quantity, 0) : 0;
 
   return (<div className="space-y-4 sm:space-y-6">
-    <div><h1 className="text-xl sm:text-2xl font-bold text-navy mb-2 dark:text-cream flex items-center gap-2"><Wrench className="w-5 h-5 sm:w-6 sm:h-6 text-beige" />کارگاه</h1><p className="text-sm text-navy/50 dark:text-beige-light">مدیریت وسایل و قرض‌های کارگاه</p></div>
+    <div><h1 className="text-xl sm:text-2xl font-bold text-navy mb-2 dark:text-cream flex items-center gap-2"><Wrench className="w-5 h-5 sm:w-6 sm:h-6 text-beige" />کارگاه و آزمایشگاه</h1><p className="text-sm text-navy/50 dark:text-beige-light">مدیریت وسایل و قرض‌های کارگاه و آزمایشگاه</p></div>
     <div className="flex gap-2 p-1 bg-navy/5 rounded-xl dark:bg-navy-light/20">
-      <button onClick={() => setTab('items')} className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${tab === 'items' ? 'bg-white text-navy shadow-sm dark:bg-navy/60 dark:text-cream' : 'text-navy/50 hover:text-navy dark:text-beige-light/60 dark:hover:text-beige-light'}`}><Package className="w-4 h-4" />وسایل کارگاه</button>
+      <button onClick={() => setTab('items')} className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${tab === 'items' ? 'bg-white text-navy shadow-sm dark:bg-navy/60 dark:text-cream' : 'text-navy/50 hover:text-navy dark:text-beige-light/60 dark:hover:text-beige-light'}`}><Package className="w-4 h-4" />وسایل کارگاه و آزمایشگاه</button>
       <button onClick={() => setTab('loans')} className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${tab === 'loans' ? 'bg-white text-navy shadow-sm dark:bg-navy/60 dark:text-cream' : 'text-navy/50 hover:text-navy dark:text-beige-light/60 dark:hover:text-beige-light'}`}><Clock className="w-4 h-4" />لیست قرض‌ها</button>
     </div>
 
