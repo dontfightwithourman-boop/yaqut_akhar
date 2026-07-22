@@ -3,9 +3,10 @@ import LocalFont from 'next/font/local';
 import './globals.css';
 import ClientProviders from './providers';
 
-const gofteh = LocalFont({
-  src: '../../public/fonts/Gofteh-Heavy.ttf',
-  variable: '--font-gofteh',
+const edameh = LocalFont({
+  src: '../../public/fonts/edamehWeb-ExtraBlack.woff2',
+  weight: '900',
+  variable: '--font-edameh',
   display: 'swap',
 });
 
@@ -21,9 +22,9 @@ export const viewport: Viewport = { themeColor: '#003049', width: 'device-width'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fa" dir="rtl" className={`${gofteh.variable} dark`} suppressHydrationWarning>
+    <html lang="fa" dir="rtl" className={`${edameh.variable} dark`} suppressHydrationWarning>
       <head><link rel="icon" href="/favicon.svg" type="image/svg+xml" /></head>
-      <body className={`${gofteh.className} antialiased`}><ClientProviders>{children}</ClientProviders></body>
+      <body className={`${edameh.className} antialiased`}><ClientProviders>{children}</ClientProviders></body>
     </html>
   );
 }
