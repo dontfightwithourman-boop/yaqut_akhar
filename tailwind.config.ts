@@ -12,7 +12,10 @@ const config: Config = {
         navy: { DEFAULT: '#003049', light: '#004066', dark: '#001A2B' },
         sky: { DEFAULT: '#669BBC', light: '#8AB5CC', dark: '#4A83A6' },
       },
-      fontFamily: { edameh: ['var(--font-edameh)', 'system-ui', 'sans-serif'] },
+      fontFamily: {
+        edameh: ['var(--font-edameh)', 'system-ui', 'sans-serif'],
+        yekan: ['var(--font-yekan)', 'var(--font-yekan-semibold)', 'var(--font-yekan-bold)', 'system-ui', 'sans-serif'],
+      },
     },
   },
   plugins: [],

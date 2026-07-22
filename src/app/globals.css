@@ -5,9 +5,10 @@
 @layer base {
   :root { --ruby: #C15959; --ruby-glow: #D47979; --cream: #FDF0D5; --beige: #C79B69; --navy: #003049; --sky: #669BBC; }
   html { background: #FDF0D5; color: #003049; transition: background-color 0.3s ease, color 0.3s ease; }
-  body { background: #FDF0D5; color: #003049; transition: background-color 0.3s ease, color 0.3s ease; }
+  body { background: #FDF0D5; color: #003049; transition: background-color 0.3s ease, color 0.3s ease; font-family: var(--font-yekan), system-ui, sans-serif; }
   html.dark { background: #001A2B; color: #FDF0D5; }
   html.dark body { background: #001A2B; color: #FDF0D5; }
+  h1, h2, h3, h4, h5, h6, .font-edameh { font-family: var(--font-edameh), system-ui, sans-serif; }
 }
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: rgba(0, 48, 73, 0.15); }
