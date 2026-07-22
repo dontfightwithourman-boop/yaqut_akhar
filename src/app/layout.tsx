@@ -4,7 +4,7 @@ import './globals.css';
 import ClientProviders from './providers';
 
 const edameh = LocalFont({
-  src: '../../public/fonts/edamehWeb-ExtraBlack.woff2',
+  src: '../../public/fonts/Gofteh-Heavy.ttf',
   weight: '900',
   variable: '--font-edameh',
   display: 'swap',
