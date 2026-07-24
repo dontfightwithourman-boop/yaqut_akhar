@@ -16,7 +16,7 @@ export default function LeaderboardPage() {
   const fetchLb = async (showRefresh = false) => { if (showRefresh) setRefreshing(true); try { const d = await leaderboardAPI.get(); setEntries(d.leaderboard); } catch { /* */ } finally { setLoading(false); setRefreshing(false); } };
   useEffect(() => { fetchLb(); const i = setInterval(() => fetchLb(), 30000); return () => clearInterval(i); }, []);
   const maxYaqut = entries.length > 0 ? entries[0].yaqut_count : 1; const totalYaqut = entries.reduce((s, e) => s + e.yaqut_count, 0);
-  return (<div className="min-h-screen bg-[#EDF4F8] dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><ParticleBackground count={15} /><Navbar />
+  return (<div className="min-h-screen bg-[#669BBC] dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><ParticleBackground count={15} /><Navbar />
     <main className="relative z-10 max-w-4xl mx-auto px-4 pt-24 pb-12">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
         <div className="inline-flex items-center justify-center mb-4"><Trophy className="w-12 h-12 text-beige" /></div>

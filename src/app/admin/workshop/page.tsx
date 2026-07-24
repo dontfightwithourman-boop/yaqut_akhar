@@ -95,7 +95,7 @@ export default function WorkshopPage() {
           </div>
           <div className="flex gap-1 shrink-0">
             <button onClick={() => openEditItem(item)} className="p-2 rounded-lg hover:bg-navy/10 text-sky hover:text-navy transition-all dark:text-sky dark:hover:bg-navy-light/30 dark:hover:text-cream"><Edit className="w-4 h-4" /></button>
-            <button onClick={() => handleDeleteItem(item.id)} className="p-2 rounded-lg hover:bg-ruby/10 text-ruby-glow hover:text-ruby transition-all dark:text-ruby-glow dark:hover:bg-ruby/10"><Trash2 className="w-4 h-4" /></button>
+            <button onClick={() => handleDeleteItem(item.id)} className="p-2 rounded-lg hover:bg-red-500/10 text-red-500 hover:text-red-600 transition-all dark:text-ruby-glow dark:hover:bg-ruby/10"><Trash2 className="w-4 h-4" /></button>
           </div>
         </div></Card>);
       })}</div>}
@@ -127,7 +127,7 @@ export default function WorkshopPage() {
             </div>
             <div className="flex gap-1 shrink-0">
               {status !== 'returned' && <button onClick={() => handleReturnLoan(loan.id)} className="p-2 rounded-lg hover:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 dark:hover:bg-emerald-500/20 transition-all" title="بازگشت"><CheckCircle className="w-4 h-4" /></button>}
-              <button onClick={() => handleDeleteLoan(loan.id)} className="p-2 rounded-lg hover:bg-ruby/10 text-ruby-glow dark:hover:bg-ruby/10 transition-all"><Trash2 className="w-4 h-4" /></button>
+              <button onClick={() => handleDeleteLoan(loan.id)} className="p-2 rounded-lg hover:bg-red-500/10 text-red-500 dark:hover:bg-red-500/10 transition-all"><Trash2 className="w-4 h-4" /></button>
             </div>
           </div>
         </Card>);
@@ -139,8 +139,8 @@ export default function WorkshopPage() {
         <Input label="نام وسیله" value={iName} onChange={(e) => setIName(e.target.value)} required />
         <Input label="مکان" value={iLoc} onChange={(e) => setILoc(e.target.value)} />
         <Input label="تعداد" type="number" min="1" value={iQty} onChange={(e) => setIQty(e.target.value)} />
-        <div className="space-y-1.5"><label className="block text-sm font-medium text-navy dark:text-beige-light">توضیحات</label><textarea value={iDesc} onChange={(e) => setIDesc(e.target.value)} rows={2} className="w-full px-4 py-3 rounded-xl bg-white/80 border border-navy/15 text-navy placeholder-navy/30 focus:outline-none focus:ring-2 focus:ring-ruby/50 dark:bg-navy-light/40 dark:border-beige/15 dark:text-cream dark:placeholder-sky/40 resize-none" dir="auto" /></div>
-        {iErr && <div className="p-3 rounded-xl bg-ruby/10 border border-ruby/20 text-ruby-glow text-sm text-center">{iErr}</div>}
+        <div className="space-y-1.5"><label className="block text-sm font-medium text-navy dark:text-beige-light">توضیحات</label><textarea value={iDesc} onChange={(e) => setIDesc(e.target.value)} rows={2} className="w-full px-4 py-3 rounded-xl bg-white/80 border border-navy/15 text-navy placeholder-navy/30 focus:outline-none focus:ring-2 focus:ring-pearl/50 dark:bg-navy-light/40 dark:border-beige/15 dark:text-cream dark:placeholder-sky/40 resize-none" dir="auto" /></div>
+        {iErr && <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-sm text-center">{iErr}</div>}
         <div className="flex gap-3"><Button type="submit" loading={iLoad} className="flex-1">{editingItem ? 'ذخیره' : 'ایجاد'}</Button><Button type="button" variant="ghost" onClick={() => setShowItemModal(false)}>انصراف</Button></div>
       </form>
     </Modal>
@@ -148,7 +148,7 @@ export default function WorkshopPage() {
     <Modal isOpen={showLoanModal} onClose={() => setShowLoanModal(false)} title="قرض جدید">
       <form onSubmit={handleLoanSubmit} className="space-y-4">
         <div className="space-y-1.5"><label className="block text-sm font-medium text-navy dark:text-beige-light">انتخاب وسیله</label>
-          <select value={lItemId} onChange={(e) => { const item = items.find((i) => i.id === e.target.value); setLItemId(e.target.value); setLItemName(item?.name || ''); setLQty('1'); }} className="w-full px-4 py-3 rounded-xl bg-white/80 border border-navy/15 text-navy focus:outline-none focus:ring-2 focus:ring-ruby/50 dark:bg-navy-light/40 dark:border-beige/15 dark:text-cream" dir="auto">
+          <select value={lItemId} onChange={(e) => { const item = items.find((i) => i.id === e.target.value); setLItemId(e.target.value); setLItemName(item?.name || ''); setLQty('1'); }} className="w-full px-4 py-3 rounded-xl bg-white/80 border border-navy/15 text-navy focus:outline-none focus:ring-2 focus:ring-pearl/50 dark:bg-navy-light/40 dark:border-beige/15 dark:text-cream" dir="auto">
             <option value="">انتخاب کنید...</option>
             {items.map((item) => { const avail = item.quantity - loans.filter((l) => l.item_id === item.id && l.status !== 'returned').reduce((s, l) => s + l.quantity, 0); return <option key={item.id} value={item.id}>{item.name} ({toPersianNumber(avail)} موجود)</option>; })}
           </select>
@@ -158,7 +158,7 @@ export default function WorkshopPage() {
         <Input label="شماره تلفن" value={lPhone} onChange={(e) => setLPhone(e.target.value)} placeholder="0912..." dir="ltr" />
         <Input label="شماره گروه" value={lGroup} onChange={(e) => setLGroup(e.target.value)} />
         <Input label="تعداد روز قرض" type="number" min="1" value={lDays} onChange={(e) => setLDays(e.target.value)} placeholder="مثلاً ۷" />
-        {lErr && <div className="p-3 rounded-xl bg-ruby/10 border border-ruby/20 text-ruby-glow text-sm text-center">{lErr}</div>}
+        {lErr && <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-sm text-center">{lErr}</div>}
         <div className="flex gap-3"><Button type="submit" loading={lLoad} className="flex-1">ثبت قرض</Button><Button type="button" variant="ghost" onClick={() => setShowLoanModal(false)}>انصراف</Button></div>
       </form>
     </Modal>

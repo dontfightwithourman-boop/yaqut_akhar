@@ -26,7 +26,7 @@ export default function ProjectsPage() {
   const updM = (i: number, f: string, v: string) => { const u = [...fM]; const m = { ...u[i] }; if (f === 'name') m.name = v; else m.period = v; u[i] = m; setFM(u); };
   const rmM = (i: number) => setFM(fM.filter((_, idx) => idx !== i));
   const filtered = projects.filter((p) => p.name.includes(search) || p.username.includes(search));
-  const inp = 'flex-1 px-3 py-2 rounded-lg bg-white/60 border border-navy/10 text-navy text-sm focus:outline-none focus:ring-1 focus:ring-ruby/50 dark:bg-navy-light/30 dark:border-beige/15 dark:text-cream';
+  const inp = 'flex-1 px-3 py-2 rounded-lg bg-white/60 border border-navy/10 text-navy text-sm focus:outline-none focus:ring-1 focus:ring-pearl/50 dark:bg-navy-light/30 dark:border-beige/15 dark:text-cream';
   return (<div className="space-y-6">
     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"><div><h1 className="text-xl sm:text-2xl font-bold text-navy mb-2 dark:text-cream">مدیریت پروژه‌ها</h1><p className="text-navy/50 dark:text-beige-light">{toPersianNumber(projects.length)} پروژه ثبت شده</p></div><Button onClick={openC}><Plus className="w-4 h-4" />پروژه جدید</Button></div>
     <div className="max-w-md"><Input placeholder="جستجو..." value={search} onChange={(e) => setSearch(e.target.value)} icon={<Search className="w-4 h-4" />} /></div>
@@ -37,7 +37,7 @@ export default function ProjectsPage() {
         {!editingProject && <Input label="نام کاربری" value={fU} onChange={(e) => setFU(e.target.value)} dir="ltr" required />}
         <Input label={editingProject ? 'رمز جدید (خالی = بدون تغییر)' : 'رمز عبور'} type="password" value={fP} onChange={(e) => setFP(e.target.value)} dir="ltr" required={!editingProject} />
         <div className="space-y-1.5"><label className="block text-sm font-medium text-navy dark:text-beige-light">توضیحات پروژه</label>
-          <textarea value={fD} onChange={(e) => setFD(e.target.value)} rows={3} className="w-full px-4 py-3 rounded-xl bg-white/80 border border-navy/15 text-navy placeholder-navy/30 focus:outline-none focus:ring-2 focus:ring-ruby/50 focus:border-ruby/50 transition-all duration-200 dark:bg-navy-light/40 dark:border-beige/15 dark:text-cream dark:placeholder-sky/40 resize-none" dir="auto" placeholder="توضیحات پروژه..." /></div>
+          <textarea value={fD} onChange={(e) => setFD(e.target.value)} rows={3} className="w-full px-4 py-3 rounded-xl bg-white/80 border border-navy/15 text-navy placeholder-navy/30 focus:outline-none focus:ring-2 focus:ring-pearl/50 focus:border-pearl/50 transition-all duration-200 dark:bg-navy-light/40 dark:border-beige/15 dark:text-cream dark:placeholder-sky/40 resize-none" dir="auto" placeholder="توضیحات پروژه..." /></div>
         {/* Logo Upload */}
         <div className="space-y-1.5">
           <label className="block text-sm font-medium text-navy dark:text-beige-light">لوگوی پروژه</label>
@@ -55,7 +55,7 @@ export default function ProjectsPage() {
             <input placeholder="دوره" value={m.period} onChange={(e) => updM(i, 'period', e.target.value)} className="w-24 sm:w-28 px-3 py-2 rounded-lg bg-white/60 border border-navy/10 text-navy text-sm dark:bg-navy-light/30 dark:border-beige/15 dark:text-cream" />
             <button type="button" onClick={() => rmM(i)} className="px-2 text-ruby-glow hover:text-ruby">✕</button>
           </div>)}</div></div>
-        {fErr && <div className="p-3 rounded-xl bg-ruby/10 border border-ruby/20 text-ruby-glow text-sm text-center">{fErr}</div>}
+        {fErr && <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-sm text-center">{fErr}</div>}
         <div className="flex gap-3 pt-2"><Button type="submit" loading={fLoad} className="flex-1">{editingProject ? 'ذخیره' : 'ایجاد'}</Button><Button type="button" variant="ghost" onClick={() => setShowCreate(false)}>انصراف</Button></div>
       </form>
     </Modal>

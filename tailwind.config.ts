@@ -6,7 +6,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ruby: { DEFAULT: '#C15959', glow: '#D47979', dark: '#A04040' },
+        ruby: { DEFAULT: '#C9B896', glow: '#D4C5A8', dark: '#A89870' },
         pearl: { DEFAULT: '#C9B896', glow: '#D4C5A8', dark: '#A89870' },
         cream: { DEFAULT: '#FDF0D5', dark: '#F0E0C0' },
         beige: { DEFAULT: '#C79B69', light: '#D4B08A', dark: '#A87D4F' },

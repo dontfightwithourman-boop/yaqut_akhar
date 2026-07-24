@@ -16,9 +16,9 @@ export default function HomePage() {
   const { login, user, loading: authLoading } = useAuth(); const router = useRouter();
   useEffect(() => { if (!authLoading && user) router.push(user.role === 'admin' ? '/admin' : '/project'); }, [user, authLoading, router]);
   const handleSubmit = async (e: React.FormEvent) => { e.preventDefault(); setError(''); setLoading(true); try { await login(username, password); } catch (err: unknown) { setError(err instanceof Error ? err.message : 'خطا'); } finally { setLoading(false); } };
-  if (authLoading) return <div className="min-h-screen bg-[#EDF4F8] flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><div className="w-8 h-8 border-2 border-ruby border-t-transparent rounded-full animate-spin" /></div>;
+  if (authLoading) return <div className="min-h-screen bg-[#669BBC] flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><div className="w-8 h-8 border-2 border-ruby border-t-transparent rounded-full animate-spin" /></div>;
   if (user) return null;
-  return (<div className="min-h-screen bg-[#EDF4F8] flex flex-col dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><ParticleBackground count={30} />
+  return (<div className="min-h-screen bg-[#669BBC] flex flex-col dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><ParticleBackground count={30} />
     <div className="absolute top-4 left-4 z-50"><ThemeToggle /></div>
     <div className="relative flex-1 flex items-center justify-center px-4 py-12">
       <div className="max-w-6xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center">
@@ -33,8 +33,8 @@ export default function HomePage() {
             <form onSubmit={handleSubmit} className="space-y-5">
               <Input label="نام کاربری" placeholder="username" value={username} onChange={(e) => setUsername(e.target.value)} icon={<User className="w-4 h-4" />} dir="ltr" />
               <Input label="رمز عبور" type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} icon={<Lock className="w-4 h-4" />} dir="ltr" />
-              {error && <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="p-3 rounded-xl bg-ruby/10 border border-ruby/20 text-ruby-glow text-sm text-center">{error}</motion.div>}
-              <Button type="submit" loading={loading} className="w-full" size="lg"><span>ورود</span><ArrowLeft className="w-4 h-4" /></Button>
+              {error && <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-sm text-center">{error}</motion.div>}
+              <Button type="submit" loading={loading} className="w-full !bg-red-500 hover:!bg-red-600 !shadow-red-500/25" size="lg"><span>ورود</span><ArrowLeft className="w-4 h-4" /></Button>
             </form>
             <div className="mt-6 text-center"><a href="/leaderboard" className="text-sm text-sky hover:text-ruby transition-colors">مشاهده رتبه‌بندی بدون ورود ←</a></div>
           </div></div></div>

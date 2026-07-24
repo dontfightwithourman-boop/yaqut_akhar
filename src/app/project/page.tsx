@@ -89,11 +89,11 @@ export default function StudentProjectPage() {
     return `${toPersianNumber(days)} روز مانده`;
   };
 
-  if (authLoading || loading) return <div className="min-h-screen bg-[#EDF4F8] flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><div className="w-8 h-8 border-2 border-ruby border-t-transparent rounded-full animate-spin" /></div>;
-  if (error || !project) return <div className="min-h-screen bg-[#EDF4F8] flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><Card className="p-8 text-center"><p className="text-ruby-glow">{error || 'پروژه یافت نشد'}</p></Card></div>;
+  if (authLoading || loading) return <div className="min-h-screen bg-[#669BBC] flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><div className="w-8 h-8 border-2 border-ruby border-t-transparent rounded-full animate-spin" /></div>;
+  if (error || !project) return <div className="min-h-screen bg-[#669BBC] flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><Card className="p-8 text-center"><p className="text-red-500">{error || 'پروژه یافت نشد'}</p></Card></div>;
 
   return (
-    <div className="min-h-screen bg-[#EDF4F8] dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark">
+    <div className="min-h-screen bg-[#669BBC] dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark">
       <ParticleBackground count={15} />
       <Navbar />
       <main className="relative z-10 max-w-2xl mx-auto px-4 pt-24 pb-12">
@@ -109,7 +109,7 @@ export default function StudentProjectPage() {
           {/* Rank */}
           {rank && (
             <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="flex justify-center">
-              <div className={`inline-flex items-center gap-2 px-6 py-3 rounded-2xl ${rank === 1 ? 'bg-beige/15 border border-beige/25 text-beige-dark dark:bg-beige/20 dark:text-beige' : rank === 2 ? 'bg-sky/15 border border-sky/25 text-sky' : rank === 3 ? 'bg-ruby/10 border border-ruby/20 text-ruby dark:bg-ruby/20 dark:text-ruby-glow' : 'bg-navy/5 border border-navy/10 text-navy/60 dark:bg-navy-light/40 dark:text-beige-light'}`}>
+              <div className={`inline-flex items-center gap-2 px-6 py-3 rounded-2xl ${rank === 1 ? 'bg-beige/15 border border-beige/25 text-beige-dark dark:bg-beige/20 dark:text-beige' : rank === 2 ? 'bg-sky/15 border border-sky/25 text-sky' : rank === 3 ? 'bg-ruby/10 border border-ruby/20 text-ruby dark:bg-ruby/20 dark:text-red-500' : 'bg-navy/5 border border-navy/10 text-navy/60 dark:bg-navy-light/40 dark:text-beige-light'}`}>
                 <Trophy className="w-5 h-5" /><span className="font-bold">رتبه {toPersianNumber(rank)}</span>
               </div>
             </motion.div>
@@ -137,16 +137,16 @@ export default function StudentProjectPage() {
               <h2 className="text-lg font-bold text-navy mb-4 flex items-center gap-2 dark:text-cream"><Settings className="w-5 h-5 text-sky" />تنظیمات پروژه</h2>
               <div className="space-y-4">
                 <Input label="نام پروژه" value={sName} onChange={(e) => setSName(e.target.value)} />
-                <div className="space-y-1.5"><label className="block text-sm font-medium text-navy dark:text-beige-light">توضیحات</label><textarea value={sDesc} onChange={(e) => setSDesc(e.target.value)} rows={3} className="w-full px-4 py-3 rounded-xl bg-white/80 border border-navy/15 text-navy placeholder-navy/30 focus:outline-none focus:ring-2 focus:ring-ruby/50 dark:bg-navy-light/40 dark:border-beige/15 dark:text-cream dark:placeholder-sky/40 resize-none" dir="auto" /></div>
+                <div className="space-y-1.5"><label className="block text-sm font-medium text-navy dark:text-beige-light">توضیحات</label><textarea value={sDesc} onChange={(e) => setSDesc(e.target.value)} rows={3} className="w-full px-4 py-3 rounded-xl bg-white/80 border border-navy/15 text-navy placeholder-navy/30 focus:outline-none focus:ring-2 focus:ring-pearl/50 dark:bg-navy-light/40 dark:border-beige/15 dark:text-cream dark:placeholder-sky/40 resize-none" dir="auto" /></div>
                 <div className="space-y-1.5"><label className="block text-sm font-medium text-navy dark:text-beige-light">لوگوی پروژه</label>
                   <input type="file" ref={fileInputRef} accept="image/*" onChange={handleImageUpload} className="hidden" />
                   <div className="flex items-center gap-3"><button type="button" onClick={() => fileInputRef.current?.click()} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/60 border border-navy/10 text-navy/60 hover:text-navy hover:bg-white/80 transition-all dark:bg-navy-light/30 dark:border-beige/15 dark:text-beige-light dark:hover:text-cream"><Upload className="w-4 h-4" />انتخاب تصویر</button>
-                    {sLogo && <button type="button" onClick={() => setSLogo('')} className="flex items-center gap-1 px-3 py-2 rounded-xl text-ruby hover:text-ruby-glow text-sm"><X className="w-3 h-3" />حذف</button>}</div>
+                    {sLogo && <button type="button" onClick={() => setSLogo('')} className="flex items-center gap-1 px-3 py-2 rounded-xl text-ruby hover:text-red-500 text-sm"><X className="w-3 h-3" />حذف</button>}</div>
                   {sLogo && <div className="mt-2 text-center"><img src={sLogo} alt="Logo" className="w-20 h-20 rounded-xl object-cover mx-auto border border-navy/10 dark:border-beige/20" /></div>}
                 </div>
-                <div><div className="flex items-center justify-between mb-2"><label className="text-sm font-medium text-navy/60 dark:text-beige-light">اعضا</label><button type="button" onClick={addM} className="text-xs text-ruby hover:text-ruby-glow transition-colors">+ افزودن عضو</button></div>
-                  <div className="space-y-2">{sMembers.map((m, i) => (<div key={i} className="flex gap-2 items-center"><span className="text-xs font-bold text-navy/40 dark:text-sky w-6 text-center">{toPersianNumber(i + 1)}</span><input placeholder="نام" value={m.name} onChange={(e) => updM(i, 'name', e.target.value)} className="flex-1 px-3 py-2 rounded-lg bg-white/60 border border-navy/10 text-navy text-sm focus:outline-none focus:ring-1 focus:ring-ruby/50 dark:bg-navy-light/30 dark:border-beige/15 dark:text-cream" /><input placeholder="دوره" value={m.period} onChange={(e) => updM(i, 'period', e.target.value)} className="w-24 sm:w-28 px-3 py-2 rounded-lg bg-white/60 border border-navy/10 text-navy text-sm dark:bg-navy-light/30 dark:border-beige/15 dark:text-cream" /><button type="button" onClick={() => rmM(i)} className="px-2 text-ruby-glow hover:text-ruby">✕</button></div>))}</div></div>
-                {sErr && <div className="p-3 rounded-xl bg-ruby/10 border border-ruby/20 text-ruby-glow text-sm text-center">{sErr}</div>}
+                <div><div className="flex items-center justify-between mb-2"><label className="text-sm font-medium text-navy/60 dark:text-beige-light">اعضا</label><button type="button" onClick={addM} className="text-xs text-ruby hover:text-red-500 transition-colors">+ افزودن عضو</button></div>
+                  <div className="space-y-2">{sMembers.map((m, i) => (<div key={i} className="flex gap-2 items-center"><span className="text-xs font-bold text-navy/40 dark:text-sky w-6 text-center">{toPersianNumber(i + 1)}</span><input placeholder="نام" value={m.name} onChange={(e) => updM(i, 'name', e.target.value)} className="flex-1 px-3 py-2 rounded-lg bg-white/60 border border-navy/10 text-navy text-sm focus:outline-none focus:ring-1 focus:ring-pearl/50 dark:bg-navy-light/30 dark:border-beige/15 dark:text-cream" /><input placeholder="دوره" value={m.period} onChange={(e) => updM(i, 'period', e.target.value)} className="w-24 sm:w-28 px-3 py-2 rounded-lg bg-white/60 border border-navy/10 text-navy text-sm dark:bg-navy-light/30 dark:border-beige/15 dark:text-cream" /><button type="button" onClick={() => rmM(i)} className="px-2 text-red-500 hover:text-ruby">✕</button></div>))}</div></div>
+                {sErr && <div className="p-3 rounded-xl bg-ruby/10 border border-ruby/20 text-red-500 text-sm text-center">{sErr}</div>}
                 <div className="flex gap-3"><Button onClick={handleSave} loading={sLoad} className="flex-1">ذخیره تغییرات</Button><Button variant="ghost" onClick={() => setShowSettings(false)}>انصراف</Button></div>
               </div>
             </Card>

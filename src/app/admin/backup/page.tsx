@@ -68,8 +68,8 @@ export default function BackupPage() {
           <h2 className="text-lg font-bold text-navy mb-2 dark:text-cream">بازیابی از فایل پشتیبان</h2>
           <p className="text-sm text-navy/50 dark:text-beige-light mb-6">آپلود فایل JSON قبلی برای بازیابی تمام داده‌ها</p>
           <input type="file" ref={fileInputRef} accept=".json" onChange={handleImport} className="hidden" />
-          <div className="p-4 rounded-xl bg-ruby/5 border border-ruby/20 mb-4">
-            <p className="text-xs text-ruby dark:text-ruby-glow flex items-center gap-1 justify-center"><AlertTriangle className="w-3 h-3" />هشدار: این عملیات تمام داده‌های فعلی را حذف و با داده‌های فایل جایگزین می‌کند</p>
+          <div className="p-4 rounded-xl bg-red-500/5 border border-red-500/20 mb-4">
+            <p className="text-xs text-red-500 flex items-center gap-1 justify-center"><AlertTriangle className="w-3 h-3" />هشدار: این عملیات تمام داده‌های فعلی را حذف و با داده‌های فایل جایگزین می‌کند</p>
           </div>
           <Button onClick={() => fileInputRef.current?.click()} loading={importing} variant="danger" className="w-full"><Upload className="w-4 h-4" />آپلود و بازیابی</Button>
         </div>
