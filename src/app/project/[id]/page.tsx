@@ -46,10 +46,10 @@ export default function PublicProjectPage({ params }: { params: { id: string } }
     return `${toPersianNumber(days)} روز مانده`;
   };
 
-  if (loading) return <div className="min-h-screen bg-cream flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><div className="w-8 h-8 border-2 border-ruby border-t-transparent rounded-full animate-spin" /></div>;
-  if (error || !project) return <div className="min-h-screen bg-cream flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><Card className="p-6 sm:p-8 text-center"><p className="text-ruby-glow">{error || 'پروژه یافت نشد'}</p><Link href="/leaderboard" className="mt-4 inline-block text-sky hover:text-ruby">بازگشت به رتبه‌بندی</Link></Card></div>;
+  if (loading) return <div className="min-h-screen bg-[#EDF4F8] flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><div className="w-8 h-8 border-2 border-ruby border-t-transparent rounded-full animate-spin" /></div>;
+  if (error || !project) return <div className="min-h-screen bg-[#EDF4F8] flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><Card className="p-6 sm:p-8 text-center"><p className="text-ruby-glow">{error || 'پروژه یافت نشد'}</p><Link href="/leaderboard" className="mt-4 inline-block text-sky hover:text-ruby">بازگشت به رتبه‌بندی</Link></Card></div>;
 
-  return (<div className="min-h-screen bg-cream dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><ParticleBackground count={15} /><Navbar />
+  return (<div className="min-h-screen bg-[#EDF4F8] dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><ParticleBackground count={15} /><Navbar />
     <main className="relative z-10 max-w-2xl mx-auto px-4 pt-24 pb-12"><motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4 sm:space-y-6">
       <Link href="/leaderboard" className="inline-flex items-center gap-2 text-sky hover:text-ruby transition-colors"><ArrowRight className="w-4 h-4" />بازگشت به رتبه‌بندی</Link>
       <div className="relative text-center">

@@ -1,8 +1,8 @@
-# یاقوت سمینار — Seminar Yaqut
+# مروارید سمینار — Seminar Morvarid
 
 مدرسه راهنمایی علامه حلی ۱ تهران — مسابقه پروژه‌ها
 
-A gamified student project competition platform where teams earn ruby gems (یاقوت) for their projects.
+A gamified student project competition platform where teams earn pearls (مروارید) for their projects.
 
 ## Tech Stack
 
@@ -84,13 +84,13 @@ This section explains how to change every visible text, image, icon, layout, and
 
 ```tsx
 // Line 9: Browser tab title
-title: { default: 'سمینار علوم و فنون مدرسه راهنمایی علامه حلی ۱ تهران', template: '%s | یاقوت سمینار' }
+title: { default: 'سمینار علوم و فنون مدرسه راهنمایی علامه حلی ۱ تهران', template: '%s | مروارید سمینار' }
 
 // Line 10: Meta description (shown in Google results)
-description: 'مسابقه پروژه‌های دانشجویی سمینار — جایی که تلاش شما به یاقوت تبدیل می‌شود'
+description: 'مسابقه پروژه‌های دانشجویی سمینار — جایی که تلاش شما به مروارید تبدیل می‌شود'
 
 // Line 11: SEO keywords
-keywords: ['سمینار', 'یاقوت', 'مدرسه راهنمایی علامه حلی ۱', 'سمینار علوم و فنون']
+keywords: ['سمینار', 'مروارید', 'مدرسه راهنمایی علامه حلی ۱', 'سمینار علوم و فنون']
 ```
 
 **To change**: Edit the Persian strings inside the quotes.
@@ -114,22 +114,20 @@ To use a PNG favicon instead:
 
 ---
 
-### 3. Changing the Ruby Gem Icon (یاقوت)
+### 3. Changing the Pearl Icon (مروارید)
 
-The gem icon appears in the Navbar, Footer, Yaqut scores, and project pages.
+The pearl icon appears in the Navbar, Footer, مروارید scores, and project pages.
 
-**PNG file**: `public/yaqut-gem.png` — Replace with your own PNG image (transparent background recommended).
-
-**SVG file**: `public/yaqut-gem.svg` — Replace with your own SVG image.
+**PNG file**: `public/morvarid.png` — Replace with your own PNG image (transparent background recommended).
 
 **Component**: `src/components/YaqutIcon.tsx` (Line 9)
 
 ```tsx
-// To change from PNG to SVG:
-<img src="/yaqut-gem.svg" alt="یاقوت" ... />
+// To change the image:
+<img src="/morvarid.png" alt="مروارید" ... />
 
 // To change from PNG to a completely different image:
-<img src="/my-custom-icon.png" alt="یاقوت" ... />
+<img src="/my-custom-icon.png" alt="مروارید" ... />
 ```
 
 The icon has an animated glow effect. To remove it, set `animate={false}` where YaqutIcon is used, or edit `YaqutIcon.tsx` line 7:
@@ -145,7 +143,7 @@ animate={undefined}  // was: animate={animate ? { filter: [...] } : undefined}
 **File**: `src/components/layout/Navbar.tsx`
 
 #### Brand Name (site logo text)
-**Line 17**: Change `"یاقوت سمینار"` to your preferred name:
+**Line 17**: Change `"مروارید سمینار"` to your preferred name:
 ```tsx
 <span className="text-lg font-bold text-ruby">نام جدید شما</span>
 ```
@@ -215,7 +213,7 @@ Add after line 22 (desktop) and line 33 (mobile):
 |------|-------------|------|-------------|
 | 9 | `داشبورد` | LayoutDashboard | Edit string |
 | 10 | `پروژه‌ها` | FolderPlus | Edit string |
-| 11 | `اعطای یاقوت` | Gem | Edit string |
+| 11 | `اعطای مروارید` | Gem | Edit string |
 | 12 | `کارگاه و آزمایشگاه` | Wrench | Edit string |
 | 13 | `پشتیبانی` | Shield | Edit string |
 | 14 | `رتبه‌بندی` | BarChart3 | Edit string |
@@ -252,15 +250,15 @@ dark:bg-navy-dark/95  →  dark:bg-gray-900/95
 **Line 27**:
 ```tsx
 // Current:
-<h1><span className="text-ruby">یاقوت</span><br /><span className="text-navy">سمینار</span></h1>
+<h1><span className="text-ruby">مروارید</span><br /><span className="text-navy">سمینار</span></h1>
 // Change:
 <h1><span className="text-ruby">متن اول</span><br /><span className="text-navy">متن دوم</span></h1>
 ```
 
 #### Stats Display
-**Line 28**: Change team count, yaqut total, participant count:
+**Line 28**: Change team count, مروارید total, participant count:
 ```tsx
-// "مسابقه" / "۶ تیم" / "یاقوت" / "۱۴۲" / "شرکت‌کننده" / "۱۵ نفر"
+// "مسابقه" / "۶ تیم" / "مروارید" / "۱۴۲" / "شرکت‌کننده" / "۱۵ نفر"
 // Replace numbers and labels with your own
 ```
 
@@ -284,9 +282,9 @@ dark:bg-navy-dark/95  →  dark:bg-gray-900/95
 
 | Line | Current Text | Description |
 |------|-------------|-------------|
-| 23 | `رتبه‌بندی یاقوت` | Page heading |
+| 23 | `رتبه‌بندی مروارید` | Page heading |
 | 24 | `مدرسه راهنمایی علامه حلی ۱ تهران — جدول رتبه‌بندی پروژه‌ها` | Page description |
-| 26 | `کل یاقوت:` | Total stat label |
+| 26 | `کل مروارید:` | Total stat label |
 | 27 | `تیم‌ها:` | Teams stat label |
 | 29 | `بروزرسانی` | Refresh button text |
 
@@ -298,7 +296,7 @@ dark:bg-navy-dark/95  →  dark:bg-gray-900/95
 
 | Line | Current Text | Description |
 |------|-------------|-------------|
-| 15 | `پروژه‌ها`, `یاقوت`, `شرکت‌کنندگان`, `میانگین` | Stats card labels |
+| 15 | `پروژه‌ها`, `مروارید`, `شرکت‌کنندگان`, `میانگین` | Stats card labels |
 | 18 | `داشبورد مدیریت` | Page heading |
 | 18 | `مدرسه راهنمایی علامه حلی ۱ تهران` | School name subtitle |
 | 21 | `سه تیم برتر` | Section heading |
@@ -312,9 +310,9 @@ dark:bg-navy-dark/95  →  dark:bg-gray-900/95
 
 | Line | Current Text | Description |
 |------|-------------|-------------|
-| 22 | `اعطای یاقوت` | Page heading |
-| 22 | `یاقوت به پروژه‌های برتر اعطا کنید` | Description |
-| 25 | `تعداد یاقوت` | Amount input label |
+| 22 | `اعطای مروارید` | Page heading |
+| 22 | `مروارید به پروژه‌های برتر اعطا کنید` | Description |
+| 25 | `تعداد مروارید` | Amount input label |
 | 25 | `یادداشت` | Note input label |
 | 25 | `ارائه، پوستر، ...` | Note placeholder |
 | 26 | `انتخاب همه` / `انتخاب هیچکدام` | Select all/none buttons |
@@ -380,7 +378,7 @@ dark:bg-navy-dark/95  →  dark:bg-gray-900/95
 | 137 | `تنظیمات پروژه` | Settings section heading |
 | 157 | `پروژه من` | My Project heading |
 | 170 | `قرض گرفته شده‌ها` | Borrowed items heading |
-| 200 | `تاریخچه یاقوت` | Yaqut history heading |
+| 200 | `تاریخچه مروارید` | Yaqut history heading |
 
 ---
 
@@ -393,7 +391,7 @@ dark:bg-navy-dark/95  →  dark:bg-gray-900/95
 | 54 | `بازگشت به رتبه‌بندی` | Back to rankings link |
 | 63 | `اعضای تیم` | Team members heading |
 | 64 | `وسایل قرضی تیم` | Team loaned items heading |
-| 72 | `تاریخچه یاقوت` | Yaqut history heading |
+| 72 | `تاریخچه مروارید` | Yaqut history heading |
 
 ---
 
@@ -571,8 +569,7 @@ All files in `public/`:
 
 | File | Used By | Purpose |
 |------|---------|---------|
-| `public/yaqut-gem.png` | `YaqutIcon.tsx` | Ruby gem icon (PNG) |
-| `public/yaqut-gem.svg` | Not currently used | Ruby gem icon (SVG backup) |
+| `public/morvarid.png` | `YaqutIcon.tsx` | Pearl icon (PNG) |
 | `public/favicon.svg` | `layout.tsx` | Browser tab icon |
 | `public/robots.txt` | Auto | SEO crawl rules |
 

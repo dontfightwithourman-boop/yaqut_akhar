@@ -26,8 +26,8 @@ export default function Sidebar() {
       {mobileOpen && <div className="md:hidden fixed inset-0 bg-black/40 z-40" onClick={() => setMobileOpen(false)} />}
       <aside className={`
         fixed md:static top-16 right-0 bottom-0 z-40
-        w-64 min-h-[calc(100vh-4rem)] bg-white/95 md:bg-white/50 backdrop-blur-xl md:backdrop-blur-none
-        border-l border-navy/10 p-4 dark:bg-navy-dark/95 md:dark:bg-navy-dark/50 dark:border-beige/10
+        w-64 min-h-[calc(100vh-4rem)] bg-white/95 md:bg-white/60 backdrop-blur-xl md:backdrop-blur-none
+        border-l border-sky/15 p-4 dark:bg-navy-dark/95 md:dark:bg-navy-dark/50 dark:border-beige/10
         transition-transform duration-300 overflow-y-auto
         ${mobileOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'}
       `}>

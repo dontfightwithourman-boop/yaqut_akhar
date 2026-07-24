@@ -14,9 +14,9 @@ import type { Project } from '@/lib/types';
 export default function AdminProjectDetail() {
   const [project, setProject] = useState<Project | null>(null); const [loading, setLoading] = useState(true); const [error, setError] = useState('');
   useEffect(() => { projectsAPI.get('self').then((d) => setProject(d.project)).catch((err) => setError(err.message)).finally(() => setLoading(false)); }, []);
-  if (loading) return <div className="min-h-screen bg-cream flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><div className="w-8 h-8 border-2 border-ruby border-t-transparent rounded-full animate-spin" /></div>;
-  if (error || !project) return <div className="min-h-screen bg-cream flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><Card className="p-6 sm:p-8 text-center"><p className="text-ruby-glow">{error || 'پروژه یافت نشد'}</p></Card></div>;
-  return (<div className="min-h-screen bg-cream dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><Navbar /><main className="relative z-10 max-w-2xl mx-auto px-4 pt-24 pb-12"><motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4 sm:space-y-6">
+  if (loading) return <div className="min-h-screen bg-[#EDF4F8] flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><div className="w-8 h-8 border-2 border-ruby border-t-transparent rounded-full animate-spin" /></div>;
+  if (error || !project) return <div className="min-h-screen bg-[#EDF4F8] flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><Card className="p-6 sm:p-8 text-center"><p className="text-ruby-glow">{error || 'پروژه یافت نشد'}</p></Card></div>;
+  return (<div className="min-h-screen bg-[#EDF4F8] dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><Navbar /><main className="relative z-10 max-w-2xl mx-auto px-4 pt-24 pb-12"><motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-4 sm:space-y-6">
     <div className="relative text-center">
       {project.logo && <img src={project.logo} alt={project.name} className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover mx-auto mb-4 border-2 border-navy/10 dark:border-beige/20" />}
       {!project.logo && <div className="inline-flex items-center justify-center mb-4 relative"><YaqutIcon size={48} animate /><SparkleEffect count={6} /></div>}

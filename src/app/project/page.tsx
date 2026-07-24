@@ -89,11 +89,11 @@ export default function StudentProjectPage() {
     return `${toPersianNumber(days)} روز مانده`;
   };
 
-  if (authLoading || loading) return <div className="min-h-screen bg-cream flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><div className="w-8 h-8 border-2 border-ruby border-t-transparent rounded-full animate-spin" /></div>;
-  if (error || !project) return <div className="min-h-screen bg-cream flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><Card className="p-8 text-center"><p className="text-ruby-glow">{error || 'پروژه یافت نشد'}</p></Card></div>;
+  if (authLoading || loading) return <div className="min-h-screen bg-[#EDF4F8] flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><div className="w-8 h-8 border-2 border-ruby border-t-transparent rounded-full animate-spin" /></div>;
+  if (error || !project) return <div className="min-h-screen bg-[#EDF4F8] flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><Card className="p-8 text-center"><p className="text-ruby-glow">{error || 'پروژه یافت نشد'}</p></Card></div>;
 
   return (
-    <div className="min-h-screen bg-cream dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark">
+    <div className="min-h-screen bg-[#EDF4F8] dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark">
       <ParticleBackground count={15} />
       <Navbar />
       <main className="relative z-10 max-w-2xl mx-auto px-4 pt-24 pb-12">

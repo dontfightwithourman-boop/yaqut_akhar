@@ -8,7 +8,7 @@ const router = Router();
 router.post('/award', authenticateToken, requireAdmin, (req: Request, res: Response) => {
   const db = getDB(); const { projectIds, amount, note } = req.body;
   if (!projectIds?.length) return res.status(400).json({ error: 'حداقل یک پروژه انتخاب کنید' });
-  if (!amount || amount < 1 || !Number.isInteger(amount)) return res.status(400).json({ error: 'تعداد یاقوت نامعتبر' });
+  if (!amount || amount < 1 || !Number.isInteger(amount)) return res.status(400).json({ error: 'تعداد مروارید نامعتبر' });
   const awarded: { projectId: string; projectName: string; amount: number }[] = [];
   for (const pid of projectIds) {
     const p = queryOne(db, 'SELECT id, name FROM projects WHERE id = $id', { $id: pid }); if (!p) continue;
