@@ -5,9 +5,9 @@ import { Loader2 } from 'lucide-react';
 interface ButtonProps { variant?: 'primary' | 'secondary' | 'ghost' | 'danger'; size?: 'sm' | 'md' | 'lg'; loading?: boolean; disabled?: boolean; children: React.ReactNode; className?: string; type?: 'button' | 'submit' | 'reset'; onClick?: () => void; }
 
 const v = {
-  primary: 'bg-gradient-to-l from-pearl via-pearl-glow to-pearl hover:from-pearl-glow hover:via-pearl hover:to-pearl-glow text-navy shadow-lg shadow-pearl/30 border border-pearl/30',
-  secondary: 'bg-white/60 hover:bg-white/80 text-navy border border-navy/15 dark:bg-navy-light/60 dark:hover:bg-navy-light dark:text-cream dark:border-beige/20',
-  ghost: 'bg-transparent hover:bg-navy/5 text-navy dark:hover:bg-navy-light/40 dark:text-cream',
+  primary: 'bg-gradient-to-l from-pearl via-pearl-glow to-pearl hover:from-pearl-glow hover:via-pearl hover:to-pearl-glow text-navy shadow-lg shadow-pearl/30 border border-pearl/40 hover:shadow-xl hover:shadow-pearl/40',
+  secondary: 'bg-white/70 hover:bg-white/90 text-navy border border-sky/20 shadow-sm shadow-sky/5 dark:bg-navy-light/60 dark:hover:bg-navy-light dark:text-cream dark:border-beige/20',
+  ghost: 'bg-transparent hover:bg-sky/5 text-navy dark:hover:bg-navy-light/40 dark:text-cream',
   danger: 'bg-red-700 hover:bg-red-600 text-cream',
 };
 

@@ -11,7 +11,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { user, logout } = useAuth();
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-sky/15 dark:bg-navy/80 dark:border-beige/10">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-sky/20 dark:bg-navy/80 dark:border-beige/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2 group"><YaqutIcon size={36} animate /><span className="text-xl font-bold text-navy group-hover:text-navy transition-colors dark:text-cream dark:group-hover:text-sky">مروارید سمینار</span></Link>
