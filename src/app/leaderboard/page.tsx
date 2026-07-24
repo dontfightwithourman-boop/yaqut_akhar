@@ -20,10 +20,10 @@ export default function LeaderboardPage() {
     <main className="relative z-10 max-w-4xl mx-auto px-4 pt-24 pb-12">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
         <div className="inline-flex items-center justify-center mb-4"><Trophy className="w-12 h-12 text-beige" /></div>
-        <h1 className="text-3xl md:text-4xl font-black text-navy mb-3 dark:text-cream">رتبه‌بندی یاقوت</h1>
+        <h1 className="text-3xl md:text-4xl font-black text-navy mb-3 dark:text-cream">رتبه‌بندی مروارید</h1>
         <p className="text-navy/60 mb-6 dark:text-beige-light">مدرسه راهنمایی علامه حلی ۱ تهران — جدول رتبه‌بندی پروژه‌ها</p>
         <div className="flex items-center justify-center gap-6 mb-6">
-          <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/60 border border-navy/8 dark:bg-navy/60 dark:border-beige/10"><Gem className="w-4 h-4 text-ruby" /><span className="text-sm text-navy/60 dark:text-beige-light">کل یاقوت: <span className="font-bold text-navy dark:text-cream">{toPersianNumber(totalYaqut)}</span></span></div>
+          <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/60 border border-navy/8 dark:bg-navy/60 dark:border-beige/10"><Gem className="w-4 h-4 text-ruby" /><span className="text-sm text-navy/60 dark:text-beige-light">کل مروارید: <span className="font-bold text-navy dark:text-cream">{toPersianNumber(totalYaqut)}</span></span></div>
           <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/60 border border-navy/8 dark:bg-navy/60 dark:border-beige/10"><Trophy className="w-4 h-4 text-beige" /><span className="text-sm text-navy/60 dark:text-beige-light">تیم‌ها: <span className="font-bold text-navy dark:text-cream">{toPersianNumber(entries.length)}</span></span></div>
         </div>
         <Button onClick={() => fetchLb(true)} loading={refreshing} variant="secondary" size="sm"><RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />بروزرسانی</Button>

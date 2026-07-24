@@ -24,7 +24,7 @@ export default function LeaderboardTable({ entries, maxYaqut }: { entries: Leade
           <div className="flex items-center gap-2 mb-1"><h3 className="font-bold text-navy dark:text-cream truncate text-sm sm:text-base">{e.name}</h3></div>
           <div className="flex items-center gap-1 text-xs text-navy/50 dark:text-beige-light"><Users className="w-3 h-3 shrink-0" /><span className="truncate">{e.members.join('، ')}</span></div>
         </div>
-        <div className="flex items-center gap-2"><YaqutIcon size={18} animate={e.rank <= 3} /><div className="text-right"><div className="text-xl sm:text-2xl font-black text-navy dark:text-cream">{toPersianNumber(e.yaqut_count)}</div><div className="text-xs text-sky">یاقوت</div></div></div>
+        <div className="flex items-center gap-2"><YaqutIcon size={18} animate={e.rank <= 3} /><div className="text-right"><div className="text-xl sm:text-2xl font-black text-navy dark:text-cream">{toPersianNumber(e.yaqut_count)}</div><div className="text-xs text-sky">مروارید</div></div></div>
         <div className="hidden sm:flex items-center gap-1 text-xs text-sky/60"><Eye className="w-3 h-3" /></div>
         <div className="hidden sm:block w-20 lg:w-24"><div className="h-1.5 bg-navy/8 rounded-full overflow-hidden dark:bg-navy-light/50"><motion.div initial={{ width: 0 }} animate={{ width: `${maxYaqut > 0 ? (e.yaqut_count / maxYaqut) * 100 : 0}%` }} transition={{ duration: 1, delay: i * 0.05 }} className={`h-full rounded-full ${e.rank === 1 ? 'bg-gradient-to-r from-beige-light to-beige' : e.rank === 2 ? 'bg-gradient-to-r from-sky-light to-sky' : e.rank === 3 ? 'bg-gradient-to-r from-ruby-glow to-ruby' : 'bg-gradient-to-r from-ruby to-ruby-glow'}`} /></div></div>
       </motion.div>

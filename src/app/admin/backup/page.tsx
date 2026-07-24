@@ -56,7 +56,7 @@ export default function BackupPage() {
         <div className="text-center">
           <Download className="w-12 h-12 text-sky mx-auto mb-4" />
           <h2 className="text-lg font-bold text-navy mb-2 dark:text-cream">دانلود نسخه پشتیبان</h2>
-          <p className="text-sm text-navy/50 dark:text-beige-light mb-6">تمام اطلاعات پروژه‌ها، یاقوت‌ها، وسایل کارگاه و قرض‌ها در یک فایل JSON</p>
+          <p className="text-sm text-navy/50 dark:text-beige-light mb-6">تمام اطلاعات پروژه‌ها، مروارید‌ها، وسایل کارگاه و قرض‌ها در یک فایل JSON</p>
           <Button onClick={handleExport} loading={loading} className="w-full"><Download className="w-4 h-4" />دانلود فایل پشتیبان</Button>
         </div>
       </Card>

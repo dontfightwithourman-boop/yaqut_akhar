@@ -8,7 +8,7 @@ import { LayoutDashboard, FolderPlus, Gem, BarChart3, Wrench, Shield, Menu, X } 
 const links = [
   { href: '/admin', label: 'داشبورد', icon: LayoutDashboard },
   { href: '/admin/projects', label: 'پروژه‌ها', icon: FolderPlus },
-  { href: '/admin/award', label: 'اعطای یاقوت', icon: Gem },
+  { href: '/admin/award', label: 'اعطای مروارید', icon: Gem },
   { href: '/admin/workshop', label: 'کارگاه و آزمایشگاه', icon: Wrench },
   { href: '/admin/backup', label: 'پشتیبانی', icon: Shield },
   { href: '/leaderboard', label: 'رتبه‌بندی', icon: BarChart3 },

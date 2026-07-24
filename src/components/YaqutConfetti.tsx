@@ -1,7 +1,7 @@
 'use client';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState } from 'react';
-const COLORS = ['#C15959', '#D47979', '#C79B69', '#D4B08A', '#669BBC', '#FDF0D5'];
+const COLORS = ['#C9B896', '#D4C5A8', '#C79B69', '#D4B08A', '#669BBC', '#FDF0D5'];
 export default function YaqutConfetti({ trigger, onComplete }: { trigger: boolean; onComplete?: () => void }) {
   const [p, setP] = useState<{ id: number; x: number; y: number; r: number; s: number; c: string; d: number }[]>([]);
   useEffect(() => {

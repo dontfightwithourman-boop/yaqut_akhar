@@ -14,7 +14,7 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-b border-navy/10 dark:bg-navy/80 dark:border-beige/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2 group"><YaqutIcon size={28} animate /><span className="text-xl font-bold text-navy group-hover:text-ruby transition-colors dark:text-cream dark:group-hover:text-ruby-glow">یاقوت سمینار</span></Link>
+          <Link href="/" className="flex items-center gap-2 group"><YaqutIcon size={28} animate /><span className="text-xl font-bold text-navy group-hover:text-ruby transition-colors dark:text-cream dark:group-hover:text-ruby-glow">مروارید سمینار</span></Link>
           <div className="hidden md:flex items-center gap-4">
             <Link href="/leaderboard" className="flex items-center gap-2 px-4 py-2 rounded-xl text-navy/70 hover:text-navy hover:bg-navy/5 transition-all dark:text-beige-light dark:hover:text-cream dark:hover:bg-navy-light/40"><BarChart3 className="w-4 h-4" /><span>رتبه‌بندی</span></Link>
             {user?.role === 'project' && <Link href="/project" className="flex items-center gap-2 px-4 py-2 rounded-xl text-ruby hover:text-ruby-glow hover:bg-ruby/5 transition-all dark:text-ruby-glow dark:hover:bg-ruby/10"><FolderOpen className="w-4 h-4" /><span>پروژه من</span></Link>}

@@ -121,7 +121,7 @@ export default function StudentProjectPage() {
             <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', bounce: 0.4 }}><YaqutIcon size={72} animate /></motion.div>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
               <div className="text-6xl sm:text-7xl font-black text-navy mt-4 dark:text-cream">{toPersianNumber(project.yaqut_count)}</div>
-              <div className="text-xl text-navy/50 mt-2 dark:text-beige-light">یاقوت</div>
+              <div className="text-xl text-navy/50 mt-2 dark:text-beige-light">مروارید</div>
             </motion.div>
           </Card>
 
@@ -197,7 +197,7 @@ export default function StudentProjectPage() {
           {/* Yaqut History */}
           {project.yaqut_history && project.yaqut_history.length > 0 && (
             <Card className="p-4 sm:p-6">
-              <h2 className="text-base sm:text-lg font-bold text-navy mb-3 sm:mb-4 flex items-center gap-2 dark:text-cream"><Clock className="w-4 h-4 sm:w-5 sm:h-5 text-beige" />تاریخچه یاقوت</h2>
+              <h2 className="text-base sm:text-lg font-bold text-navy mb-3 sm:mb-4 flex items-center gap-2 dark:text-cream"><Clock className="w-4 h-4 sm:w-5 sm:h-5 text-beige" />تاریخچه مروارید</h2>
               <div className="space-y-2">
                 {project.yaqut_history.map((ev) => (
                   <div key={ev.id} className="flex items-center justify-between p-2 sm:p-3 rounded-xl bg-navy/3 dark:bg-navy-light/30">
