@@ -20,7 +20,7 @@ export default function Sidebar() {
 
   return (
     <>
-      <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden fixed bottom-4 left-4 z-50 p-3 rounded-full bg-navy text-cream shadow-lg shadow-navy/30">
+      <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden fixed bottom-4 left-4 z-50 p-3 rounded-full bg-gradient-to-br from-pearl to-pearl-dark text-navy shadow-lg shadow-pearl/30">
         {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
       </button>
       {mobileOpen && <div className="md:hidden fixed inset-0 bg-black/40 z-40" onClick={() => setMobileOpen(false)} />}
