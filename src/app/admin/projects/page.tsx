@@ -44,11 +44,11 @@ export default function ProjectsPage() {
           <input type="file" ref={fileInputRef} accept="image/*" onChange={handleImageUpload} className="hidden" />
           <div className="flex items-center gap-3">
             <button type="button" onClick={() => fileInputRef.current?.click()} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/60 border border-navy/10 text-navy/60 hover:text-navy hover:bg-white/80 transition-all dark:bg-navy-light/30 dark:border-beige/15 dark:text-beige-light dark:hover:text-cream"><Upload className="w-4 h-4" />انتخاب تصویر</button>
-            {fL && <button type="button" onClick={() => setFL('')} className="flex items-center gap-1 px-3 py-2 rounded-xl text-ruby hover:text-ruby-glow text-sm"><X className="w-3 h-3" />حذف</button>}
+            {fL && <button type="button" onClick={() => setFL('')} className="flex items-center gap-1 px-3 py-2 rounded-xl text-pearl hover:text-pearl-glow text-sm"><X className="w-3 h-3" />حذف</button>}
           </div>
           {fL && <div className="mt-2 text-center"><img src={fL} alt="Logo preview" className="w-16 h-16 rounded-xl object-cover mx-auto border border-navy/10 dark:border-beige/20" /></div>}
         </div>
-        <div><div className="flex items-center justify-between mb-2"><label className="text-sm font-medium text-navy/60 dark:text-beige-light">اعضا</label><button type="button" onClick={addM} className="text-xs text-ruby hover:text-ruby-glow transition-colors">+ افزودن عضو</button></div>
+        <div><div className="flex items-center justify-between mb-2"><label className="text-sm font-medium text-navy/60 dark:text-beige-light">اعضا</label><button type="button" onClick={addM} className="text-xs text-pearl hover:text-pearl-glow transition-colors">+ افزودن عضو</button></div>
           <div className="space-y-2">{fM.map((m, i) => <div key={i} className="flex gap-2 items-center">
             <span className="text-xs font-bold text-navy/40 dark:text-sky w-6 text-center">{toPersianNumber(i + 1)}</span>
             <input placeholder="نام" value={m.name} onChange={(e) => updM(i, 'name', e.target.value)} className={inp} />

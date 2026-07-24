@@ -20,7 +20,7 @@ export default function Sidebar() {
 
   return (
     <>
-      <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden fixed bottom-4 left-4 z-50 p-3 rounded-full bg-ruby text-cream shadow-lg shadow-ruby/30">
+      <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden fixed bottom-4 left-4 z-50 p-3 rounded-full bg-navy text-cream shadow-lg shadow-navy/30">
         {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
       </button>
       {mobileOpen && <div className="md:hidden fixed inset-0 bg-black/40 z-40" onClick={() => setMobileOpen(false)} />}
@@ -35,8 +35,8 @@ export default function Sidebar() {
           const active = pathname === l.href || (l.href !== '/admin' && l.href !== '/leaderboard' && pathname.startsWith(l.href));
           const I = l.icon;
           return <Link key={l.href} href={l.href} onClick={() => setMobileOpen(false)}
-            className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-200 ${active ? 'bg-ruby/15 text-ruby dark:bg-ruby/20 dark:text-ruby-glow' : 'text-navy/60 hover:text-navy hover:bg-navy/5 dark:text-beige-light dark:hover:text-cream dark:hover:bg-navy-light/30'}`}>
-            {active && <motion.div layoutId="activeTab" className="absolute inset-0 bg-ruby/10 rounded-xl border border-ruby/15 dark:border-ruby/20" transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }} />}
+            className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-200 ${active ? 'bg-sky/15 text-sky dark:bg-sky/20 dark:text-sky' : 'text-navy/60 hover:text-navy hover:bg-navy/5 dark:text-beige-light dark:hover:text-cream dark:hover:bg-navy-light/30'}`}>
+            {active && <motion.div layoutId="activeTab" className="absolute inset-0 bg-sky/10 rounded-xl border border-sky/15 dark:border-sky/20" transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }} />}
             <I className="w-4 h-4 relative z-10 shrink-0" /><span className="font-medium relative z-10">{l.label}</span>
           </Link>;
         })}</div>

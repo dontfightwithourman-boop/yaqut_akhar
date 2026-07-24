@@ -17,7 +17,7 @@ export default function ProjectCard({ project, onEdit, onDelete, selectable = fa
     <div className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 rounded-xl bg-navy/3 dark:bg-navy-light/30"><YaqutIcon size={24} animate={project.yaqut_count > 0} /><div><div className="text-2xl sm:text-3xl font-black text-navy dark:text-cream">{toPersianNumber(project.yaqut_count)}</div><div className="text-xs text-sky">مروارید</div></div></div>
     {(onEdit || onDelete) && <div className="flex items-center gap-2 mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-navy/8 dark:border-beige/10">
       {onEdit && <button onClick={() => onEdit(project)} className="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-lg text-xs text-navy/60 hover:text-navy hover:bg-navy/5 transition-all dark:text-beige-light dark:hover:text-cream dark:hover:bg-navy-light/40"><Edit className="w-3 h-3" />ویرایش</button>}
-      {onDelete && <button onClick={() => onDelete(project.id)} className="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-lg text-xs text-red-500 hover:text-red-600 hover:bg-red-500/5 transition-all dark:text-ruby-glow dark:hover:text-ruby dark:hover:bg-ruby/10"><Trash2 className="w-3 h-3" />حذف</button>}
+      {onDelete && <button onClick={() => onDelete(project.id)} className="flex items-center gap-1 px-2 sm:px-3 py-1.5 rounded-lg text-xs text-red-500 hover:text-red-600 hover:bg-red-500/5 transition-all dark:text-red-400 dark:hover:text-red-500 dark:hover:bg-red-500/10"><Trash2 className="w-3 h-3" />حذف</button>}
     </div>}
   </motion.div>;
 }

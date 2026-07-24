@@ -95,7 +95,7 @@ export default function WorkshopPage() {
           </div>
           <div className="flex gap-1 shrink-0">
             <button onClick={() => openEditItem(item)} className="p-2 rounded-lg hover:bg-navy/10 text-sky hover:text-navy transition-all dark:text-sky dark:hover:bg-navy-light/30 dark:hover:text-cream"><Edit className="w-4 h-4" /></button>
-            <button onClick={() => handleDeleteItem(item.id)} className="p-2 rounded-lg hover:bg-red-500/10 text-red-500 hover:text-red-600 transition-all dark:text-ruby-glow dark:hover:bg-ruby/10"><Trash2 className="w-4 h-4" /></button>
+            <button onClick={() => handleDeleteItem(item.id)} className="p-2 rounded-lg hover:bg-red-500/10 text-red-500 hover:text-red-600 transition-all dark:text-red-400 dark:hover:bg-red-500/10"><Trash2 className="w-4 h-4" /></button>
           </div>
         </div></Card>);
       })}</div>}
