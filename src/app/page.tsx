@@ -16,9 +16,9 @@ export default function HomePage() {
   const { login, user, loading: authLoading } = useAuth(); const router = useRouter();
   useEffect(() => { if (!authLoading && user) router.push(user.role === 'admin' ? '/admin' : '/project'); }, [user, authLoading, router]);
   const handleSubmit = async (e: React.FormEvent) => { e.preventDefault(); setError(''); setLoading(true); try { await login(username, password); } catch (err: unknown) { setError(err instanceof Error ? err.message : 'خطا'); } finally { setLoading(false); } };
-  if (authLoading) return <div className="min-h-screen bg-[#F0F7FB] flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><div className="w-8 h-8 border-2 border-ruby border-t-transparent rounded-full animate-spin" /></div>;
+  if (authLoading) return <div className="min-h-screen bg-transparent flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><div className="w-8 h-8 border-2 border-ruby border-t-transparent rounded-full animate-spin" /></div>;
   if (user) return null;
-  return (<div className="min-h-screen bg-[#F0F7FB] flex flex-col dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><ParticleBackground count={30} />
+  return (<div className="min-h-screen bg-transparent flex flex-col dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><ParticleBackground count={30} />
     <div className="absolute top-4 left-4 z-50"><ThemeToggle /></div>
     <div className="relative flex-1 flex items-center justify-center px-4 py-12">
       <div className="max-w-6xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center">
