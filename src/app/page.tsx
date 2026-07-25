@@ -34,7 +34,7 @@ export default function HomePage() {
               <Input label="نام کاربری" placeholder="username" value={username} onChange={(e) => setUsername(e.target.value)} icon={<User className="w-4 h-4" />} dir="ltr" />
               <Input label="رمز عبور" type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} icon={<Lock className="w-4 h-4" />} dir="ltr" />
               {error && <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-sm text-center">{error}</motion.div>}
-              <Button type="submit" loading={loading} className="w-full !bg-red-500 hover:!bg-red-600 !shadow-red-500/25" size="lg"><span>ورود</span><ArrowLeft className="w-4 h-4" /></Button>
+              <Button type="submit" loading={loading} className="w-full !bg-red-500 hover:!bg-red-600 !shadow-none" size="lg"><span>ورود</span><ArrowLeft className="w-4 h-4" /></Button>
             </form>
             <div className="mt-6 text-center"><a href="/leaderboard" className="text-sm text-sky hover:text-ruby transition-colors">مشاهده رتبه‌بندی بدون ورود ←</a></div>
           </div></div></div>
