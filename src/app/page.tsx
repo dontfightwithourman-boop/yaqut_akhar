@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { User, Lock, ArrowLeft, Gem, Trophy, Users } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAuth } from '@/lib/auth';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
@@ -36,7 +37,7 @@ export default function HomePage() {
               {error && <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-sm text-center">{error}</motion.div>}
               <Button type="submit" loading={loading} className="w-full !bg-red-500 hover:!bg-red-600 !shadow-none" size="lg"><span>ورود</span><ArrowLeft className="w-4 h-4" /></Button>
             </form>
-            <div className="mt-6 text-center"><a href="/leaderboard" className="text-sm text-sky hover:text-ruby transition-colors">مشاهده رتبه‌بندی بدون ورود ←</a></div>
+            <div className="mt-6 text-center text-sm text-navy/50 dark:text-beige-light">مشاهده <Link href="/leaderboard" className="text-sky hover:text-ruby transition-colors">رتبه‌بندی</Link> و <Link href="/news" className="text-sky hover:text-ruby transition-colors">اخبار</Link> بدون ورود</div>
           </div></div></div>
         </motion.div>
       </div>

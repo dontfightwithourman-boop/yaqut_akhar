@@ -13,6 +13,7 @@ router.get('/export', authenticateToken, requireAdmin, (req: Request, res: Respo
     const yaqutEvents = queryAll(db, 'SELECT * FROM yaqut_events');
     const workshopItems = queryAll(db, 'SELECT * FROM workshop_items');
     const workshopLoans = queryAll(db, 'SELECT * FROM workshop_loans');
+    const news = queryAll(db, 'SELECT * FROM news');
 
     const backup = {
       version: '1.0',
@@ -23,6 +24,7 @@ router.get('/export', authenticateToken, requireAdmin, (req: Request, res: Respo
         yaqut_events: yaqutEvents,
         workshop_items: workshopItems,
         workshop_loans: workshopLoans,
+        news,
       }
     };
 
@@ -48,6 +50,7 @@ router.post('/import', authenticateToken, requireAdmin, (req: Request, res: Resp
     db.run('DELETE FROM yaqut_events');
     db.run('DELETE FROM members');
     db.run('DELETE FROM projects');
+    db.run('DELETE FROM news');
 
     // Import projects
     if (data.projects && Array.isArray(data.projects)) {
@@ -90,6 +93,15 @@ router.post('/import', authenticateToken, requireAdmin, (req: Request, res: Resp
       for (const loan of data.workshop_loans) {
         db.run('INSERT INTO workshop_loans (id, item_id, item_name, quantity, group_number, borrower_name, borrow_date, return_date, status, created_at) VALUES ($id, $iid, $in, $qty, $gn, $bn, $bd, $rd, $st, $ca)', {
           $id: loan.id, $iid: loan.item_id, $in: loan.item_name, $qty: loan.quantity || 1, $gn: loan.group_number || '', $bn: loan.borrower_name || '', $bd: loan.borrow_date, $rd: loan.return_date, $st: loan.status || 'borrowed', $ca: loan.created_at || new Date().toISOString()
+        });
+      }
+    }
+
+    // Import news
+    if (data.news && Array.isArray(data.news)) {
+      for (const n of data.news) {
+        db.run('INSERT INTO news (id, title, content, media, status, created_at, updated_at) VALUES ($id, $t, $c, $m, $s, $ca, $ua)', {
+          $id: n.id, $t: n.title, $c: n.content || '', $m: typeof n.media === 'string' ? n.media : JSON.stringify(n.media || []), $s: n.status || 'draft', $ca: n.created_at || new Date().toISOString(), $ua: n.updated_at || new Date().toISOString()
         });
       }
     }
