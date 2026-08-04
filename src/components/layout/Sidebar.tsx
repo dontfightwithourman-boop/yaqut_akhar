@@ -3,11 +3,12 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { LayoutDashboard, FolderPlus, Gem, BarChart3, Wrench, Shield, Menu, X } from 'lucide-react';
+import { LayoutDashboard, FolderPlus, Gem, BarChart3, Wrench, Shield, Menu, X, Newspaper } from 'lucide-react';
 
 const links = [
   { href: '/admin', label: 'داشبورد', icon: LayoutDashboard },
   { href: '/admin/projects', label: 'پروژه‌ها', icon: FolderPlus },
+  { href: '/admin/news', label: 'اخبار', icon: Newspaper },
   { href: '/admin/award', label: 'اعطای مروارید', icon: Gem },
   { href: '/admin/workshop', label: 'کارگاه و آزمایشگاه', icon: Wrench },
   { href: '/admin/backup', label: 'پشتیبانی', icon: Shield },

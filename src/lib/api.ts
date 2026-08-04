@@ -1,4 +1,4 @@
-import type { User, Project, LeaderboardEntry, WorkshopItem, WorkshopLoan } from './types';
+import type { User, Project, LeaderboardEntry, WorkshopItem, WorkshopLoan, News } from './types';
 
 // In browser: use Next.js rewrite proxy (/api)
 // On server: use direct backend URL
@@ -86,4 +86,12 @@ export const backupAPI = {
     URL.revokeObjectURL(url);
   },
   import: (data: Record<string, unknown>) => request<{ success: boolean; message: string }>('/backup/import', { method: 'POST', body: JSON.stringify({ data }) }),
+};
+
+export const newsAPI = {
+  list: () => request<{ news: News[] }>('/news'),
+  get: (id: string) => request<{ news: News }>(`/news/${id}`),
+  create: (data: { title: string; content?: string; media?: News['media']; status?: string }) => request<{ news: News }>('/news', { method: 'POST', body: JSON.stringify(data) }),
+  update: (id: string, data: Record<string, unknown>) => request<{ news: News }>(`/news/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  delete: (id: string) => request<{ success: boolean }>(`/news/${id}`, { method: 'DELETE' }),
 };

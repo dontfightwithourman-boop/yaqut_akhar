@@ -25,6 +25,7 @@ export async function initDB(): Promise<Database> {
   db.run('CREATE TABLE IF NOT EXISTS yaqut_events (id TEXT PRIMARY KEY, project_id TEXT NOT NULL, amount INTEGER NOT NULL, awarded_at TEXT DEFAULT (datetime(\'now\')), note TEXT, FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE)');
   db.run('CREATE TABLE IF NOT EXISTS workshop_items (id TEXT PRIMARY KEY, name TEXT NOT NULL, location TEXT DEFAULT \'\', quantity INTEGER DEFAULT 1, description TEXT DEFAULT \'\', created_at TEXT DEFAULT (datetime(\'now\')), updated_at TEXT DEFAULT (datetime(\'now\')))');
   db.run('CREATE TABLE IF NOT EXISTS workshop_loans (id TEXT PRIMARY KEY, loan_number INTEGER, item_id TEXT NOT NULL, item_name TEXT NOT NULL, quantity INTEGER DEFAULT 1, group_number TEXT DEFAULT \'\', borrower_name TEXT DEFAULT \'\', borrow_date TEXT NOT NULL, return_date TEXT NOT NULL, status TEXT DEFAULT \'borrowed\', created_at TEXT DEFAULT (datetime(\'now\')), FOREIGN KEY (item_id) REFERENCES workshop_items(id) ON DELETE CASCADE)');
+  db.run('CREATE TABLE IF NOT EXISTS news (id TEXT PRIMARY KEY, title TEXT NOT NULL, content TEXT DEFAULT \'\', media TEXT DEFAULT \'[]\', status TEXT DEFAULT \'draft\', created_at TEXT DEFAULT (datetime(\'now\')), updated_at TEXT DEFAULT (datetime(\'now\')))');
 
   // Migrations
   try { db.run('ALTER TABLE workshop_loans RENAME COLUMN group_name TO group_number'); } catch { /* */ }
