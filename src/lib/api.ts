@@ -88,6 +88,10 @@ export const backupAPI = {
   import: (data: Record<string, unknown>) => request<{ success: boolean; message: string }>('/backup/import', { method: 'POST', body: JSON.stringify({ data }) }),
 };
 
+export const homeAPI = {
+  getStats: () => request<{ stats: { projects: number; yaqut: number; members: number } }>('/home/stats'),
+};
+
 export const newsAPI = {
   list: () => request<{ news: News[] }>('/news'),
   get: (id: string) => request<{ news: News }>(`/news/${id}`),

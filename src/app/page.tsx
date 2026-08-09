@@ -5,7 +5,7 @@ import { User, Lock, ArrowLeft, Gem, Trophy, Users } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/lib/auth';
-import { projectsAPI, leaderboardAPI } from '@/lib/api';
+import { homeAPI } from '@/lib/api';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import ThemeToggle from '@/components/ui/ThemeToggle';
@@ -16,17 +16,12 @@ import { toPersianNumber } from '@/lib/helpers';
 
 export default function HomePage() {
   const [username, setUsername] = useState(''); const [password, setPassword] = useState(''); const [error, setError] = useState(''); const [loading, setLoading] = useState(false);
-  const [stats, setStats] = useState<{ teams: number; yaqut: number; participants: number } | null>(null);
+  const [stats, setStats] = useState<{ projects: number; yaqut: number; members: number } | null>(null);
   const { login, user, loading: authLoading } = useAuth(); const router = useRouter();
   useEffect(() => { if (!authLoading && user) router.push(user.role === 'admin' ? '/admin' : '/project'); }, [user, authLoading, router]);
   useEffect(() => {
     let cancelled = false;
-    Promise.all([projectsAPI.list(), leaderboardAPI.get()]).then(([p, l]) => {
-      if (cancelled) return;
-      const totalMembers = p.projects.reduce((s, proj) => s + (proj.members?.length || 0), 0);
-      const totalYaqut = l.leaderboard.reduce((s, entry) => s + entry.yaqut_count, 0);
-      setStats({ teams: p.projects.length, yaqut: totalYaqut, participants: totalMembers });
-    }).catch(() => { if (!cancelled) setStats({ teams: 0, yaqut: 0, participants: 0 }); });
+    homeAPI.getStats().then((d) => { if (!cancelled) setStats(d.stats); }).catch(() => { if (!cancelled) setStats({ projects: 0, yaqut: 0, members: 0 }); });
     return () => { cancelled = true; };
   }, []);
   const handleSubmit = async (e: React.FormEvent) => { e.preventDefault(); setError(''); setLoading(true); try { await login(username, password); } catch (err: unknown) { setError(err instanceof Error ? err.message : 'خطا'); } finally { setLoading(false); } };
@@ -39,7 +34,7 @@ export default function HomePage() {
         <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="text-center md:text-right order-2 md:order-1">
           <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.3, type: 'spring' }} className="inline-flex items-center justify-center mb-6"><div className="relative"><YaqutIcon size={100} animate /><SparkleEffect count={8} /></div></motion.div>
           <h1 className="text-4xl md:text-6xl font-black text-navy mb-4 leading-tight dark:text-cream">مروارید<br /><span className="text-sky dark:text-pearl">سمینار</span></h1>
-          <div className="flex items-center justify-center md:justify-start gap-8">{[{ icon: Trophy, label: 'مسابقه', value: toPersianNumber(stats?.teams ?? 0) }, { icon: Gem, label: 'مروارید', value: toPersianNumber(stats?.yaqut ?? 0) }, { icon: Users, label: 'شرکت‌کننده', value: toPersianNumber(stats?.participants ?? 0) + ' نفر' }].map((s, i) => <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 + i * 0.1 }} className="text-center"><s.icon className="w-5 h-5 text-sky mb-1 mx-auto" /><div className="text-lg font-bold text-navy dark:text-cream">{s.value}</div><div className="text-xs text-sky">{s.label}</div></motion.div>)}</div>
+          <div className="flex items-center justify-center md:justify-start gap-8">{[{ icon: Trophy, label: 'مسابقه', value: toPersianNumber(stats?.projects ?? 0) }, { icon: Gem, label: 'مروارید', value: toPersianNumber(stats?.yaqut ?? 0) }, { icon: Users, label: 'شرکت‌کننده', value: toPersianNumber(stats?.members ?? 0) + ' نفر' }].map((s, i) => <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 + i * 0.1 }} className="text-center"><s.icon className="w-5 h-5 text-sky mb-1 mx-auto" /><div className="text-lg font-bold text-navy dark:text-cream">{s.value}</div><div className="text-xs text-sky">{s.label}</div></motion.div>)}</div>
         </motion.div>
         <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="order-1 md:order-2">
           <div className="w-full max-w-md mx-auto"><div className="relative bg-white/70 backdrop-blur-xl rounded-3xl border border-sky/25 p-8 shadow-2xl shadow-sky/10 dark:bg-navy/70 dark:border-beige/15"><div className="relative">

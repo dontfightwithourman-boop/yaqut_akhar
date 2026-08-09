@@ -8,6 +8,7 @@ import leaderboardRoutes from './routes/leaderboard';
 import workshopRoutes from './routes/workshop';
 import backupRoutes from './routes/backup';
 import newsRoutes from './routes/news';
+import homeRoutes from './routes/home';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -47,6 +48,7 @@ app.use('/api/leaderboard', leaderboardRoutes);
 app.use('/api/workshop', workshopRoutes);
 app.use('/api/backup', backupRoutes);
 app.use('/api/news', newsRoutes);
+app.use('/api/home', homeRoutes);
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
 
 async function start() {
