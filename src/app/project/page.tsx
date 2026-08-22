@@ -60,19 +60,39 @@ export default function StudentProjectPage() {
   useEffect(() => { if (!authLoading && (!user || user.role !== 'project')) window.location.href = '/'; }, [user, authLoading]);
   useEffect(() => { loadProject(); }, [user]);
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (file.size > 2 * 1024 * 1024) { setSErr('حجم تصویر باید کمتر از ۲ مگابایت باشد'); return; }
-    const reader = new FileReader();
-    reader.onload = (ev) => { setSLogo(ev.target?.result as string); };
-    reader.readAsDataURL(file);
+    setSErr('');
+    const formData = new FormData();
+    formData.append('logo', file);
+    try {
+      const token = localStorage.getItem('yaghout_token');
+      const res = await fetch('/api/projects/' + user!.projectId, {
+        method: 'PUT',
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: formData
+      });
+      if (!res.ok) throw new Error('خطا در آپلود تصویر');
+      loadProject();
+      setSaveMsg('تصویر با موفقیت آپلود شد!');
+      setTimeout(() => setSaveMsg(''), 3000);
+    } catch (err: unknown) { setSErr(err instanceof Error ? err.message : 'خطا'); }
   };
 
   const handleSave = async () => {
     if (!user || user.role !== 'project') return;
     setSErr(''); setSLoad(true); setSaveMsg('');
-    try { await projectsAPI.update(user.projectId!, { name: sName, description: sDesc, logo: sLogo, members: sMembers.filter((m) => m.name.trim()) }); setSaveMsg('تغییرات ذخیره شد!'); setTimeout(() => setSaveMsg(''), 3000); setShowSettings(false); loadProject(); }
+    try {
+      const updateData: Record<string, unknown> = { name: sName, description: sDesc, members: sMembers.filter((m) => m.name.trim()) };
+      if (sLogo === '') updateData.logo = '';
+      await projectsAPI.update(user.projectId!, updateData);
+      setSaveMsg('تغییرات ذخیره شد!');
+      setTimeout(() => setSaveMsg(''), 3000);
+      setShowSettings(false);
+      loadProject();
+    }
     catch (err: unknown) { setSErr(err instanceof Error ? err.message : 'خطا'); } finally { setSLoad(false); }
   };
 

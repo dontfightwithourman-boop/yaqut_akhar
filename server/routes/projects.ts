@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcryptjs';
 import { getDB, saveDB, queryAll, queryOne } from '../db';
 import { authenticateToken, requireAdmin } from '../middleware/auth';
+import { upload } from '../index';
 
 const router = Router();
 
@@ -33,17 +34,19 @@ router.get('/:id', authenticateToken, (req: Request, res: Response) => {
   res.json({ project });
 });
 
-router.post('/', authenticateToken, requireAdmin, (req: Request, res: Response) => {
-  const db = getDB(); const { name, username, password, description, logo, members } = req.body;
+router.post('/', authenticateToken, requireAdmin, upload.single('logo'), (req: Request, res: Response) => {
+  const db = getDB(); const { name, username, password, description, members } = req.body;
   if (!name || !username) return res.status(400).json({ error: 'نام و نام کاربری الزامی است' });
   if (queryOne(db, 'SELECT id FROM projects WHERE username = $u', { $u: username })) return res.status(400).json({ error: 'نام کاربری تکراری' });
-  const id = uuidv4(); db.run('INSERT INTO projects (id, name, username, password, description, logo) VALUES ($id, $n, $u, $pw, $d, $l)', { $id: id, $n: name, $u: username, $pw: bcrypt.hashSync(password || 'team123', 10), $d: description || '', $l: logo || '' });
+  const id = uuidv4();
+  const logoFilename = req.file ? `/uploads/${req.file.filename}` : '';
+  db.run('INSERT INTO projects (id, name, username, password, description, logo) VALUES ($id, $n, $u, $pw, $d, $l)', { $id: id, $n: name, $u: username, $pw: bcrypt.hashSync(password || 'team123', 10), $d: description || '', $l: logoFilename });
   if (members?.length) for (const m of members) db.run('INSERT INTO members (project_id, name, period) VALUES ($id, $n, $p)', { $id: id, $n: m.name, $p: m.period || null });
-  saveDB(); res.json({ project: { id, name, username, password: password || 'team123', description: description || '', logo: logo || '', yaqut_count: 0, members: members || [] } });
+  saveDB(); res.json({ project: { id, name, username, password: password || 'team123', description: description || '', logo: logoFilename, yaqut_count: 0, members: members || [] } });
 });
 
-router.put('/:id', authenticateToken, (req: Request, res: Response) => {
-  const db = getDB(); const { id } = req.params; const { name, username, password, description, logo, members } = req.body;
+router.put('/:id', authenticateToken, upload.single('logo'), (req: Request, res: Response) => {
+  const db = getDB(); const { id } = req.params; const { name, username, password, description, members } = req.body;
   const isProjectOwner = req.user!.role === 'project' && req.user!.projectId === id;
   const isAdmin = req.user!.role === 'admin';
   if (!isAdmin && !isProjectOwner) return res.status(403).json({ error: 'دسترسی غیرمجاز' });
@@ -56,7 +59,12 @@ router.put('/:id', authenticateToken, (req: Request, res: Response) => {
   if (isAdmin && password) { u.push('password = $pw'); p.$pw = bcrypt.hashSync(password, 10); }
   if (name !== undefined) { u.push('name = $n'); p.$n = name; }
   if (description !== undefined) { u.push('description = $d'); p.$d = description; }
-  if (logo !== undefined) { u.push('logo = $l'); p.$l = logo; }
+  if (req.file) {
+    const logoFilename = `/uploads/${req.file.filename}`;
+    u.push('logo = $l'); p.$l = logoFilename;
+  } else if (req.body.logo === '' || req.body.logo === 'undefined') {
+    u.push('logo = $l'); p.$l = '';
+  }
   if (u.length) { u.push("updated_at = datetime('now')"); db.run(`UPDATE projects SET ${u.join(', ')} WHERE id = $id`, p); }
   if (members?.length) { db.run('DELETE FROM members WHERE project_id = $id', { $id: id }); for (const m of members) db.run('INSERT INTO members (project_id, name, period) VALUES ($id, $n, $p)', { $id: id, $n: m.name, $p: m.period || null }); }
   saveDB(); res.json({ success: true });

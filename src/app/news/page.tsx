@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Newspaper, Calendar, Image as ImageIcon, Video, AudioLines, ChevronLeft, Search } from 'lucide-react';
+import { Newspaper, Calendar, Image as ImageIcon, Video, AudioLines, Search, ArrowLeft } from 'lucide-react';
 import { newsAPI } from '@/lib/api';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
@@ -29,6 +29,7 @@ export default function NewsPage() {
   return (
     <div className="min-h-screen bg-transparent dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark">
       <div className="max-w-4xl mx-auto px-4 py-8 sm:py-12">
+        <Link href="/" className="inline-flex items-center gap-2 text-sky hover:text-ruby transition-colors mb-6"><ArrowLeft className="w-4 h-4" />بازگشت به صفحه اصلی</Link>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8 sm:mb-12">
           <div className="inline-flex items-center justify-center mb-4"><Newspaper className="w-12 h-12 text-sky" /></div>
           <h1 className="text-3xl sm:text-4xl font-black text-navy mb-3 dark:text-cream">اخبار و رویدادها</h1>

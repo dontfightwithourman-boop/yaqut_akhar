@@ -1,10 +1,11 @@
 'use client';
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Download, Upload, Shield, AlertTriangle, CheckCircle } from 'lucide-react';
+import { Download, Upload, Shield, AlertTriangle, CheckCircle, ArrowLeft } from 'lucide-react';
 import { backupAPI } from '@/lib/api';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
+import Link from 'next/link';
 
 export default function BackupPage() {
   const [loading, setLoading] = useState(false);
@@ -40,6 +41,7 @@ export default function BackupPage() {
   };
 
   return (<div className="space-y-4 sm:space-y-6">
+    <Link href="/admin" className="inline-flex items-center gap-2 text-sky hover:text-ruby transition-colors"><ArrowLeft className="w-4 h-4" />بازگشت به داشبورد</Link>
     <div><h1 className="text-xl sm:text-2xl font-bold text-navy mb-2 dark:text-cream flex items-center gap-2"><Shield className="w-5 h-5 sm:w-6 sm:h-6 text-beige" />پشتیبان‌گیری و بازیابی</h1><p className="text-sm text-navy/50 dark:text-beige-light">دانلود و آپلود نسخه پشتیبان کامل داده‌ها</p></div>
 
     {message && (

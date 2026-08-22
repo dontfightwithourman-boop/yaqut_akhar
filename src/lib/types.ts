@@ -1,3 +1,4 @@
+export interface News { id: string; title: string; content: string; media: Array<{ url: string; type: 'image' | 'video' | 'audio'; name?: string }>; status: 'draft' | 'published'; created_at: string; updated_at: string; }
 export interface Project { id: string; name: string; name_en?: string; username: string; description?: string; logo?: string; yaqut_count: number; created_at: string; updated_at: string; members?: Member[]; yaqut_history?: YaqutEvent[]; }
 export interface Member { name: string; period?: string; student_id?: string; class_name?: string; }
 export interface YaqutEvent { id: string; amount: number; awarded_at: string; note?: string; }

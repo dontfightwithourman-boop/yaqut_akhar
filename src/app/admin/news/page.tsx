@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import { Plus, Search, Newspaper, Trash2, Edit, Upload, X, Image as ImageIcon, Video, AudioLines } from 'lucide-react';
+import { Plus, Search, Newspaper, Trash2, Edit, Upload, X, Image as ImageIcon, Video, AudioLines, ArrowRight } from 'lucide-react';
 import { newsAPI } from '@/lib/api';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
@@ -9,6 +9,7 @@ import Card from '@/components/ui/Card';
 import { toPersianNumber } from '@/lib/helpers';
 import type { News } from '@/lib/types';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 export default function AdminNewsPage() {
   const [news, setNews] = useState<News[]>([]);
@@ -100,6 +101,7 @@ export default function AdminNewsPage() {
   const filtered = news.filter((n) => n.title.includes(search) || n.content.includes(search));
   return (
     <div className="space-y-6">
+      <Link href="/admin" className="inline-flex items-center gap-2 text-sky hover:text-ruby transition-colors"><ArrowRight className="w-4 h-4" />بازگشت به داشبورد</Link>
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div><h1 className="text-xl sm:text-2xl font-bold text-navy mb-2 dark:text-cream">مدیریت اخبار</h1><p className="text-navy/50 dark:text-beige-light">{toPersianNumber(news.length)} خبر ثبت شده</p></div>
         <Button onClick={openC}><Plus className="w-4 h-4" />خبر جدید</Button>

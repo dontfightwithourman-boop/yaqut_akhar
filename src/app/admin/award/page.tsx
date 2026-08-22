@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Gem } from 'lucide-react';
+import { Gem, ArrowLeft } from 'lucide-react';
 import { projectsAPI, yaqutAPI } from '@/lib/api';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
@@ -11,6 +11,7 @@ import YaqutConfetti from '@/components/YaqutConfetti';
 import YaqutIcon from '@/components/YaqutIcon';
 import { toPersianNumber } from '@/lib/helpers';
 import type { Project } from '@/lib/types';
+import Link from 'next/link';
 
 export default function AwardPage() {
   const [projects, setProjects] = useState<Project[]>([]); const [loading, setLoading] = useState(true); const [selected, setSelected] = useState<string[]>([]); const [amount, setAmount] = useState(''); const [note, setNote] = useState(''); const [awarding, setAwarding] = useState(false); const [showConfetti, setShowConfetti] = useState(false); const [lastAwarded, setLastAwarded] = useState<{ projectName: string; amount: number } | null>(null);
@@ -19,6 +20,7 @@ export default function AwardPage() {
   const selectAll = () => setSelected(selected.length === projects.length ? [] : projects.map((p) => p.id));
   const handleAward = async () => { if (selected.length === 0 || !amount || parseInt(amount) < 1) return; setAwarding(true); try { await yaqutAPI.award({ projectIds: selected, amount: parseInt(amount), note: note || undefined }); const d = await projectsAPI.list(); setProjects(d.projects); setShowConfetti(true); setLastAwarded({ projectName: `${selected.length} پروژه`, amount: parseInt(amount) }); setSelected([]); setAmount(''); setNote(''); setTimeout(() => { setShowConfetti(false); setLastAwarded(null); }, 3000); } catch (err: unknown) { alert(err instanceof Error ? err.message : 'خطا'); } finally { setAwarding(false); } };
   return (<div className="space-y-4 sm:space-y-6">
+    <Link href="/admin" className="inline-flex items-center gap-2 text-sky hover:text-ruby transition-colors"><ArrowLeft className="w-4 h-4" />بازگشت به داشبورد</Link>
     <div className="relative"><h1 className="text-xl sm:text-2xl font-bold text-navy mb-2 dark:text-cream">اعطای مروارید</h1><p className="text-sm text-navy/50 dark:text-beige-light">مروارید به پروژه‌های برتر اعطا کنید</p>
       <AnimatePresence>{showConfetti && <div className="fixed inset-0 pointer-events-none z-50"><YaqutConfetti trigger={showConfetti} />{lastAwarded && <motion.div initial={{ opacity: 0, scale: 0.8, y: 50 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.8 }} className="fixed top-1/3 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-xl rounded-3xl border border-pearl/20 p-6 sm:p-8 shadow-2xl shadow-pearl/10 text-center dark:bg-navy/95 dark:border-pearl/30 dark:shadow-pearl/20"><YaqutIcon size={48} animate /><h3 className="text-lg sm:text-xl font-bold text-navy mt-4 dark:text-cream">مروارید اعطا شد!</h3><p className="text-navy/50 mt-2 dark:text-beige-light">{toPersianNumber(lastAwarded.amount)} مروارید به {lastAwarded.projectName}</p></motion.div>}</div>}</AnimatePresence>
     </div>

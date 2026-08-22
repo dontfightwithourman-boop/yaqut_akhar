@@ -9,12 +9,39 @@ import workshopRoutes from './routes/workshop';
 import backupRoutes from './routes/backup';
 import newsRoutes from './routes/news';
 import homeRoutes from './routes/home';
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 
 app.disable('x-powered-by');
+
+const uploadsDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, uploadsDir),
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname).toLowerCase();
+    cb(null, `${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`);
+  }
+});
+
+const upload = multer({
+  storage,
+  limits: { fileSize: 2 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
+    if (allowed.includes(file.mimetype)) cb(null, true);
+    else cb(new Error('فرمت تصویر نامعتبر است'));
+  }
+});
+
+app.use('/uploads', express.static(uploadsDir));
+app.use(express.urlencoded({ extended: true }));
 
 // CORS - restricted to frontend only
 const allowedOrigins = [
@@ -50,6 +77,8 @@ app.use('/api/backup', backupRoutes);
 app.use('/api/news', newsRoutes);
 app.use('/api/home', homeRoutes);
 app.get('/api/health', (_req, res) => res.json({ status: 'ok' }));
+
+export { upload };
 
 async function start() {
   try { await initDB(); app.listen(PORT, () => console.log(`Server on port ${PORT}`)); }

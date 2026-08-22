@@ -8,6 +8,7 @@ import Card from '@/components/ui/Card';
 import { toPersianNumber, formatDate } from '@/lib/helpers';
 import type { News } from '@/lib/types';
 import { useParams } from 'next/navigation';
+import Link from 'next/link';
 
 export default function NewsDetailPage() {
   const params = useParams();
@@ -26,13 +27,13 @@ export default function NewsDetailPage() {
   };
 
   if (loading) return <div className="min-h-screen bg-transparent flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><div className="w-8 h-8 border-2 border-ruby border-t-transparent rounded-full animate-spin" /></div>;
-  if (!news) return <div className="min-h-screen bg-transparent flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><div className="text-center"><Newspaper className="w-12 h-12 text-navy/15 mx-auto mb-4" /><p className="text-navy/40">خبر یافت نشد</p><Button onClick={() => window.history.back()} className="mt-4">بازگشت</Button></div></div>;
+  if (!news) return <div className="min-h-screen bg-transparent flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><div className="text-center"><Newspaper className="w-12 h-12 text-navy/15 mx-auto mb-4" /><p className="text-navy/40">خبر یافت نشد</p><Link href="/news" className="mt-4 inline-block text-sky hover:text-ruby">بازگشت به اخبار</Link></div></div>;
 
   return (
     <div className="min-h-screen bg-transparent dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark">
       <div className="max-w-3xl mx-auto px-4 py-8 sm:py-12">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <Button variant="ghost" onClick={() => window.history.back()} className="mb-6"><ArrowRight className="w-4 h-4" />بازگشت</Button>
+          <Link href="/news" className="inline-flex items-center gap-2 text-sky hover:text-ruby transition-colors mb-6"><ArrowRight className="w-4 h-4" />بازگشت به اخبار</Link>
           <Card className="p-6 sm:p-8">
             <h1 className="text-2xl sm:text-3xl font-black text-navy mb-4 dark:text-cream">{news.title}</h1>
             <div className="flex items-center gap-3 text-sm text-navy/50 mb-6 dark:text-beige-light">

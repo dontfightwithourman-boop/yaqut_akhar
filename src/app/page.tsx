@@ -28,12 +28,12 @@ export default function HomePage() {
   if (authLoading) return <div className="min-h-screen bg-transparent flex items-center justify-center dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><div className="w-8 h-8 border-2 border-ruby border-t-transparent rounded-full animate-spin" /></div>;
   if (user) return null;
   return (<div className="min-h-screen bg-transparent flex flex-col dark:bg-gradient-to-br dark:from-navy-dark dark:via-navy dark:to-navy-dark"><ParticleBackground count={30} />
-    <div className="absolute top-4 left-4 z-50"><ThemeToggle /></div>
+    <div className="absolute top-4 right-4 z-50"><ThemeToggle /></div>
     <div className="relative flex-1 flex items-center justify-center px-4 py-12">
       <div className="max-w-6xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center">
         <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="text-center md:text-right order-2 md:order-1">
           <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.3, type: 'spring' }} className="inline-flex items-center justify-center mb-6"><div className="relative"><YaqutIcon size={100} animate /><SparkleEffect count={8} /></div></motion.div>
-          <h1 className="text-4xl md:text-6xl font-black text-navy mb-4 leading-tight dark:text-cream">مروارید<br /><span className="text-sky dark:text-pearl">سمینار</span></h1>
+          <h1 className="text-4xl md:text-6xl font-black text-navy mb-4 leading-tight dark:text-cream">چهلمین سمینار<br /><span className="text-sky dark:text-pearl">علوم و فنون</span></h1>
           <div className="flex items-center justify-center md:justify-start gap-8">{[{ icon: Trophy, label: 'مسابقه', value: toPersianNumber(stats?.projects ?? 0) }, { icon: Gem, label: 'مروارید', value: toPersianNumber(stats?.yaqut ?? 0) }, { icon: Users, label: 'شرکت‌کننده', value: toPersianNumber(stats?.members ?? 0) + ' نفر' }].map((s, i) => <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 + i * 0.1 }} className="text-center"><s.icon className="w-5 h-5 text-sky mb-1 mx-auto" /><div className="text-lg font-bold text-navy dark:text-cream">{s.value}</div><div className="text-xs text-sky">{s.label}</div></motion.div>)}</div>
         </motion.div>
         <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="order-1 md:order-2">
@@ -50,6 +50,6 @@ export default function HomePage() {
         </motion.div>
       </div>
     </div>
-    <footer className="relative z-10 border-t border-sky/15 py-6 dark:border-beige/10"><div className="max-w-7xl mx-auto px-4 text-center text-sm text-sky">مدرسه راهنمایی علامه حلی ۱ تهران — مروارید سمینار ۱۴۰۵</div></footer>
+    <footer className="relative z-10 border-t border-sky/15 py-6 dark:border-beige/10"><div className="max-w-7xl mx-auto px-4 text-center text-sm text-sky">مدرسه راهنمایی علامه حلی ۱ تهران — چهلمین سمینار علوم و فنون ۱۴۰۵</div></footer>
   </div>);
 }

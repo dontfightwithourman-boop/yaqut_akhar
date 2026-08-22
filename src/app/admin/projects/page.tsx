@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import { Plus, Search, FolderPlus, Upload, X } from 'lucide-react';
+import { Plus, Search, FolderPlus, Upload, X, ArrowLeft } from 'lucide-react';
 import { projectsAPI } from '@/lib/api';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
@@ -8,6 +8,7 @@ import Modal from '@/components/ui/Modal';
 import ProjectCard from '@/components/ProjectCard';
 import { toPersianNumber } from '@/lib/helpers';
 import type { Project } from '@/lib/types';
+import Link from 'next/link';
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]); const [loading, setLoading] = useState(true); const [search, setSearch] = useState(''); const [showCreate, setShowCreate] = useState(false); const [editingProject, setEditingProject] = useState<Project | null>(null);
@@ -19,8 +20,26 @@ export default function ProjectsPage() {
   const reset = () => { setFN(''); setFU(''); setFP(''); setFD(''); setFL(''); setFM([]); setFErr(''); };
   const openC = () => { reset(); setEditingProject(null); setShowCreate(true); };
   const openE = (p: Project) => { setEditingProject(p); setFN(p.name); setFU(p.username); setFP(''); setFD(p.description || ''); setFL(p.logo || ''); setFM(p.members?.map((m) => ({ name: m.name, period: m.period || '' })) || []); setShowCreate(true); };
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => { const file = e.target.files?.[0]; if (!file) return; if (file.size > 2 * 1024 * 1024) { setFErr('حجم تصویر باید کمتر از ۲ مگابایت باشد'); return; } const reader = new FileReader(); reader.onload = (ev) => { setFL(ev.target?.result as string); }; reader.readAsDataURL(file); };
-  const handleSubmit = async (e: React.FormEvent) => { e.preventDefault(); setFErr(''); setFLoad(true); try { if (editingProject) { const ud: Record<string, unknown> = { name: fN, description: fD, logo: fL, members: fM.filter((m) => m.name.trim()) }; if (fU) ud.username = fU; if (fP) ud.password = fP; await projectsAPI.update(editingProject.id, ud); } else { await projectsAPI.create({ name: fN, username: fU, password: fP || undefined, description: fD, logo: fL, members: fM.filter((m) => m.name.trim()) }); } setShowCreate(false); fetchP(); } catch (err: unknown) { setFErr(err instanceof Error ? err.message : 'خطا'); } finally { setFLoad(false); } };
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) { setFErr('حجم تصویر باید کمتر از ۲ مگابایت باشد'); return; }
+    setFErr('');
+    const formData = new FormData();
+    formData.append('logo', file);
+    try {
+      const token = localStorage.getItem('yaghout_token');
+      const res = await fetch('/api/projects' + (editingProject ? `/${editingProject.id}` : ''), {
+        method: editingProject ? 'PUT' : 'POST',
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: formData
+      });
+      if (!res.ok) throw new Error('خطا در آپلود تصویر');
+      fetchP();
+      setShowCreate(false);
+    } catch (err: unknown) { setFErr(err instanceof Error ? err.message : 'خطا'); }
+  };
+  const handleSubmit = async (e: React.FormEvent) => { e.preventDefault(); setFErr(''); setFLoad(true); try { if (editingProject) { const ud: Record<string, unknown> = { name: fN, description: fD, members: fM.filter((m) => m.name.trim()) }; if (fU) ud.username = fU; if (fP) ud.password = fP; await projectsAPI.update(editingProject.id, ud); } else { await projectsAPI.create({ name: fN, username: fU, password: fP || undefined, description: fD, members: fM.filter((m) => m.name.trim()) }); } setShowCreate(false); fetchP(); } catch (err: unknown) { setFErr(err instanceof Error ? err.message : 'خطا'); } finally { setFLoad(false); } };
   const handleDelete = async (id: string) => { if (!confirm('آیا از حذف این پروژه مطمئن هستید؟')) return; try { await projectsAPI.delete(id); fetchP(); } catch { /* */ } };
   const addM = () => setFM([...fM, { name: '', period: '' }]);
   const updM = (i: number, f: string, v: string) => { const u = [...fM]; const m = { ...u[i] }; if (f === 'name') m.name = v; else m.period = v; u[i] = m; setFM(u); };
@@ -28,6 +47,7 @@ export default function ProjectsPage() {
   const filtered = projects.filter((p) => p.name.includes(search) || p.username.includes(search));
   const inp = 'flex-1 px-3 py-2 rounded-lg bg-white/60 border border-navy/10 text-navy text-sm focus:outline-none focus:ring-1 focus:ring-pearl/50 dark:bg-navy-light/30 dark:border-beige/15 dark:text-cream';
   return (<div className="space-y-6">
+    <Link href="/admin" className="inline-flex items-center gap-2 text-sky hover:text-ruby transition-colors"><ArrowLeft className="w-4 h-4" />بازگشت به داشبورد</Link>
     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"><div><h1 className="text-xl sm:text-2xl font-bold text-navy mb-2 dark:text-cream">مدیریت پروژه‌ها</h1><p className="text-navy/50 dark:text-beige-light">{toPersianNumber(projects.length)} پروژه ثبت شده</p></div><Button onClick={openC}><Plus className="w-4 h-4" />پروژه جدید</Button></div>
     <div className="max-w-md"><Input placeholder="جستجو..." value={search} onChange={(e) => setSearch(e.target.value)} icon={<Search className="w-4 h-4" />} /></div>
     {loading ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">{[1, 2, 3].map((i) => <div key={i} className="h-48 rounded-2xl bg-navy/5 animate-pulse dark:bg-navy-light/20" />)}</div> : filtered.length === 0 ? <div className="text-center py-12"><FolderPlus className="w-12 h-12 text-navy/15 mx-auto mb-4 dark:text-sky/30" /><p className="text-navy/40 dark:text-sky">پروژه‌ای یافت نشد</p></div> : <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">{filtered.map((p) => <ProjectCard key={p.id} project={p} onEdit={openE} onDelete={handleDelete} />)}</div>}
