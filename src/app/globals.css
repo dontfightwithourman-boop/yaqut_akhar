@@ -5,7 +5,7 @@
 @layer base {
   :root { --ruby: #C15959; --ruby-glow: #D47979; --cream: #FDF0D5; --beige: #C79B69; --navy: #003049; --sky: #669BBC; }
   html { background: linear-gradient(135deg, #C5DFEB 0%, #D8E9F3 30%, #E0EEF6 60%, #CBE3ED 100%); color: #003049; transition: background-color 0.3s ease, color 0.3s ease; }
-  body { background: transparent; color: #003049; transition: background-color 0.3s ease, color 0.3s ease; font-family: var(--font-yekan), system-ui, sans-serif; min-height: 100vh; }
+  body { background: transparent; color: #003049; transition: background-color 0.3s ease, color 0.3s ease; font-family: var(--font-darbareh), system-ui, sans-serif; min-height: 100vh; }
   html.dark { background: #001A2B; color: #FDF0D5; }
   html.dark body { background: #001A2B; color: #FDF0D5; }
   h1, h2, h3, h4, h5, h6, .font-edameh { font-family: var(--font-edameh), system-ui, sans-serif; }

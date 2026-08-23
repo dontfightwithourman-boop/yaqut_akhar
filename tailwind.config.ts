@@ -15,7 +15,7 @@ const config: Config = {
       },
       fontFamily: {
         edameh: ['var(--font-edameh)', 'system-ui', 'sans-serif'],
-        yekan: ['var(--font-yekan)', 'var(--font-yekan-semibold)', 'var(--font-yekan-bold)', 'system-ui', 'sans-serif'],
+        darbareh: ['var(--font-darbareh)', 'var(--font-darbareh-medium)', 'var(--font-darbareh-semibold)', 'var(--font-darbareh-bold)', 'system-ui', 'sans-serif'],
       },
     },
   },

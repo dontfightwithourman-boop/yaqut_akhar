@@ -9,7 +9,6 @@ import { homeAPI } from '@/lib/api';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import ThemeToggle from '@/components/ui/ThemeToggle';
-import YaqutIcon from '@/components/YaqutIcon';
 import SparkleEffect from '@/components/SparkleEffect';
 import ParticleBackground from '@/components/ParticleBackground';
 import { toPersianNumber } from '@/lib/helpers';
@@ -32,9 +31,9 @@ export default function HomePage() {
     <div className="relative flex-1 flex items-center justify-center px-4 py-12">
       <div className="max-w-6xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center">
         <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="text-center md:text-right order-2 md:order-1">
-          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.3, type: 'spring' }} className="inline-flex items-center justify-center mb-6"><div className="relative"><YaqutIcon size={100} animate /><SparkleEffect count={8} /></div></motion.div>
+          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.3, type: 'spring' }} className="inline-flex items-center justify-center mb-6"><div className="relative"><img src="/l-logo.png" alt="آرم سمینار" width={100} height={100} className="object-contain" style={{ width: 100, height: 100 }} /><SparkleEffect count={8} /></div></motion.div>
           <h1 className="text-4xl md:text-6xl font-black text-navy mb-4 leading-tight dark:text-cream">چهلمین سمینار<br /><span className="text-sky dark:text-pearl">علوم و فنون</span></h1>
-          <div className="flex items-center justify-center md:justify-start gap-8">{[{ icon: Trophy, label: 'مسابقه', value: toPersianNumber(stats?.projects ?? 0) }, { icon: Gem, label: 'مروارید', value: toPersianNumber(stats?.yaqut ?? 0) }, { icon: Users, label: 'شرکت‌کننده', value: toPersianNumber(stats?.members ?? 0) + ' نفر' }].map((s, i) => <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 + i * 0.1 }} className="text-center"><s.icon className="w-5 h-5 text-sky mb-1 mx-auto" /><div className="text-lg font-bold text-navy dark:text-cream">{s.value}</div><div className="text-xs text-sky">{s.label}</div></motion.div>)}</div>
+          <div className="flex items-center justify-center md:justify-start gap-8">{[{ icon: Trophy, label: 'تیم ها', value: toPersianNumber(stats?.projects ?? 0) }, { icon: Gem, label: 'مروارید', value: toPersianNumber(stats?.yaqut ?? 0) }, { icon: Users, label: 'شرکت‌کننده', value: toPersianNumber(stats?.members ?? 0) + ' نفر' }].map((s, i) => <motion.div key={i} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 + i * 0.1 }} className="text-center"><s.icon className="w-5 h-5 text-sky mb-1 mx-auto" /><div className="text-lg font-bold text-navy dark:text-cream">{s.value}</div><div className="text-xs text-sky">{s.label}</div></motion.div>)}</div>
         </motion.div>
         <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className="order-1 md:order-2">
           <div className="w-full max-w-md mx-auto"><div className="relative bg-white/70 backdrop-blur-xl rounded-3xl border border-sky/25 p-8 shadow-2xl shadow-sky/10 dark:bg-navy/70 dark:border-beige/15"><div className="relative">

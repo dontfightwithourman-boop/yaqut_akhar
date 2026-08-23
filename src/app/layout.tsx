@@ -4,30 +4,40 @@ import './globals.css';
 import ClientProviders from './providers';
 
 const edameh = LocalFont({
-  src: '../../public/fonts/Gofteh-Heavy.ttf',
+  src: [
+    { path: '../../public/fonts/edamehWeb-ExtraBlack.woff2', weight: '900' },
+    { path: '../../public/fonts/edamehWeb-ExtraBlack.woff', weight: '900' },
+  ],
   weight: '900',
   variable: '--font-edameh',
   display: 'swap',
 });
 
-const yekanRegular = LocalFont({
-  src: '../../public/fonts/YekanBakh-Regular.woff2',
+const darbarehRegular = LocalFont({
+  src: '../../public/fonts/darbarehWeb-Regular.woff2',
   weight: '400',
-  variable: '--font-yekan',
+  variable: '--font-darbareh',
   display: 'swap',
 });
 
-const yekanSemiBold = LocalFont({
-  src: '../../public/fonts/YekanBakh-SemiBold.woff2',
+const darbarehMedium = LocalFont({
+  src: '../../public/fonts/darbarehWeb-Medium.woff2',
+  weight: '500',
+  variable: '--font-darbareh-medium',
+  display: 'swap',
+});
+
+const darbarehSemiBold = LocalFont({
+  src: '../../public/fonts/darbarehWeb-SemiBold.woff2',
   weight: '600',
-  variable: '--font-yekan-semibold',
+  variable: '--font-darbareh-semibold',
   display: 'swap',
 });
 
-const yekanBold = LocalFont({
-  src: '../../public/fonts/YekanBakh-Bold.woff2',
+const darbarehBold = LocalFont({
+  src: '../../public/fonts/darbarehWeb-Bold.woff2',
   weight: '700',
-  variable: '--font-yekan-bold',
+  variable: '--font-darbareh-bold',
   display: 'swap',
 });
 
@@ -43,9 +53,9 @@ export const viewport: Viewport = { themeColor: '#003049', width: 'device-width'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fa" dir="rtl" className={`${edameh.variable} ${yekanRegular.variable} ${yekanSemiBold.variable} ${yekanBold.variable} dark`} suppressHydrationWarning>
+    <html lang="fa" dir="rtl" className={`${edameh.variable} ${darbarehRegular.variable} ${darbarehMedium.variable} ${darbarehSemiBold.variable} ${darbarehBold.variable} dark`} suppressHydrationWarning>
       <head><link rel="icon" href="/favicon.svg" type="image/svg+xml" /></head>
-      <body className={`${yekanRegular.className} antialiased`}><ClientProviders>{children}</ClientProviders></body>
+      <body className={`${darbarehRegular.className} antialiased`}><ClientProviders>{children}</ClientProviders></body>
     </html>
   );
 }
