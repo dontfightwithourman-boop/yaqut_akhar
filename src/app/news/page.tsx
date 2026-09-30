@@ -33,7 +33,7 @@ export default function NewsPage() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8 sm:mb-12">
           <div className="inline-flex items-center justify-center mb-4"><Newspaper className="w-12 h-12 text-sky" /></div>
           <h1 className="text-3xl sm:text-4xl font-black text-navy mb-3 dark:text-cream">اخبار و رویدادها</h1>
-          <p className="text-navy/60 dark:text-beige-light max-w-md mx-auto">آخرین اخبار، رویدادها و اطلاعیه‌های مدرسه را اینجا دنبال کنید</p>
+          <p className="text-navy/60 dark:text-beige-light max-w-md mx-auto">آخرین اخبار، رویدادها و اطلاعیه‌های سمینار را اینجا دنبال کنید</p>
         </motion.div>
 
         <div className="max-w-md mx-auto mb-8">

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import bcrypt from 'bcryptjs';
 import { getDB, saveDB, queryAll, queryOne } from '../db';
 import { authenticateToken, requireAdmin } from '../middleware/auth';
-import { upload } from '../index';
+import { upload } from '../middleware/upload';
 
 const router = Router();
 

@@ -8,9 +8,13 @@ router.get('/stats', (req, res) => {
   const projects = queryAll(db, 'SELECT id FROM projects');
   const totalProjects = projects.length;
   const totalYaqut = projects.reduce((sum, p) => {
-    const row = queryOne(db, 'SELECT COALESCE(SUM(amount), 0) as total FROM yaqut_events WHERE project_id = $pid', { $pid: p.id });
-    return sum + (row ? (row.total as number) : 0);
-  }, 0);
+  const row = queryOne(
+    db,
+    'SELECT COALESCE(yaqut_count, 0) as total FROM projects WHERE id = $id',
+    { $id: p.id }
+  );
+  return sum + (row ? Number(row.total) : 0);
+}, 0);
   const members = queryAll(db, 'SELECT COUNT(*) as cnt FROM members');
   const totalMembers = members.length > 0 ? (members[0].cnt as number) : 0;
   res.json({ stats: { projects: totalProjects, yaqut: totalYaqut, members: totalMembers } });
